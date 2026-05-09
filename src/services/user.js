@@ -12,16 +12,16 @@ export function getOrCreateAnonId() {
 }
 
 export async function getOrCreateUser() {
+  if (!supabase) throw new Error('Supabase niet geconfigureerd')
+
   const anonId = getOrCreateAnonId()
 
-  // Kijk of user bestaat
   let { data: user } = await supabase
     .from('users')
     .select('*')
     .eq('anon_id', anonId)
     .single()
 
-  // Anders aanmaken (upsert om duplicate key bij race-condition te voorkomen)
   if (!user) {
     const { data, error } = await supabase
       .from('users')
@@ -36,6 +36,8 @@ export async function getOrCreateUser() {
 }
 
 export async function updateUserEmail(userId, email, opts = {}) {
+  if (!supabase) throw new Error('Supabase niet geconfigureerd')
+
   const { data, error } = await supabase
     .from('users')
     .update({
@@ -51,6 +53,7 @@ export async function updateUserEmail(userId, email, opts = {}) {
 }
 
 export async function getLatestCheck(userId) {
+  if (!supabase) return null
   const { data } = await supabase
     .from('checks')
     .select('*')

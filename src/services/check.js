@@ -1,6 +1,8 @@
 import { supabase } from './supabase'
 
 export async function saveCheck({ userId, answers, results, totalSavings, score }) {
+  if (!supabase) throw new Error('Supabase niet geconfigureerd')
+
   const shareId = generateShareId()
   const { data, error } = await supabase
     .from('checks')
@@ -25,6 +27,7 @@ export async function saveCheck({ userId, answers, results, totalSavings, score 
 }
 
 export async function getCheckById(id) {
+  if (!supabase) return null
   const { data } = await supabase
     .from('checks')
     .select('*')
@@ -34,6 +37,7 @@ export async function getCheckById(id) {
 }
 
 export async function getCheckByShareId(shareId) {
+  if (!supabase) return null
   const { data } = await supabase
     .from('checks')
     .select('*')
