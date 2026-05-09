@@ -1,0 +1,26 @@
+export const INVESTING_PROVIDERS = [
+  {
+    slug: 'degiro',
+    name: 'DEGIRO',
+    logo: 'D', logoColor: '#0F4C81',
+    rating: 4.3, reviewCount: 48000,
+    bestChoice: true,
+    yearlyFeesPct: 0.0025,
+    monthlyFee: 0,
+    features: ['Laagste transactiekosten NL', 'Grote productselectie', 'Geen bewaarkosten', 'DEGIRO app'],
+    welcomeBonus: { amount: 0, description: '20 gratis transacties eerste jaar', appliesAfter: 'signup' },
+    affiliateLink: 'https://degiro.nl',
+  },
+  {
+    slug: 'bux',
+    name: 'BUX',
+    logo: 'B', logoColor: '#FF3A3A',
+    rating: 4.1, reviewCount: 21000,
+    bestChoice: false,
+    yearlyFeesPct: 0.003,
+    monthlyFee: 0,
+    features: ['Fractional shares', 'Gebruiksvriendelijk', 'Geen instapdrempel', 'Auto-invest'],
+    welcomeBonus: { amount: 0, description: '', appliesAfter: 'signup' },
+    affiliateLink: 'https://bux.com',
+  },
+]

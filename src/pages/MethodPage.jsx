@@ -1,0 +1,57 @@
+import { Link } from 'react-router-dom'
+import PageContainer from '../components/layout/PageContainer'
+import { getTariffsLastUpdate } from '../services/tariffs'
+
+export default function MethodPage() {
+  return (
+    <PageContainer className="py-12 max-w-2xl">
+      <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-ink-400 hover:text-ink-700 mb-8 transition-colors">
+        <span className="material-symbols-rounded text-base">arrow_back</span>
+        Terug naar home
+      </Link>
+
+      <h1 className="text-3xl font-bold text-ink-900 mb-2">Hoe berekenen we jouw besparing?</h1>
+      <p className="text-ink-500 mb-8">Laatste update tarieven: {getTariffsLastUpdate()}</p>
+
+      <div className="space-y-8 text-ink-700 leading-relaxed">
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">Onze databronnen</h2>
+          <p>We gebruiken CBS-benchmarkdata (2026) voor gemiddeld verbruik per huishoudtype en -grootte. Tarieven zijn gebaseerd op actuele marktprijzen per categorie.</p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">Aannames</h2>
+          <ul className="space-y-2 list-disc list-inside text-sm">
+            <li>Gemiddeld stroomtarief: €0,32/kWh (variabel, 2026)</li>
+            <li>Gemiddeld gastarief: €1,45/m³</li>
+            <li>Vaste leveringskosten energie: €35/mnd</li>
+            <li>Zorgpremie benchmark: €145/mnd (basis, 35-jarige)</li>
+            <li>Portfolio-kosten bij traditionele bank: 1,2%/jaar</li>
+            <li>Portfolio-kosten bij goedkope broker: 0,25%/jaar</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">Welkomstbonussen</h2>
+          <p className="text-sm">Waar aanbieders eenmalige welkomstbonussen bieden, rekenen we deze mee in het eerste jaar. Jaar 2+ toont de structurele besparing zonder bonus.</p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">Zekerheidsscores</h2>
+          <ul className="space-y-2 text-sm">
+            <li><span className="font-semibold text-success">Hoge zekerheid (85%+)</span> — je hebt je eigen verbruikscijfers ingevoerd</li>
+            <li><span className="font-semibold text-amber-600">Indicatief (65–85%)</span> — we gebruiken CBS-gemiddelden voor jouw situatie</li>
+            <li><span className="font-semibold text-ink-400">Globale schatting (&lt;65%)</span> — categorie met veel variabelen; doe verder onderzoek</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">Affiliate transparantie</h2>
+          <p className="text-sm">BespaarCheck verdient een vergoeding wanneer je via onze links overstapt. Dit kost jou niets extra. Onze aanbevelingen zijn gebaseerd op prijs-kwaliteitverhouding — niet op commissie-hoogte. We tonen altijd alle aanbieders, ook als we er geen vergoeding voor krijgen.</p>
+        </section>
+
+      </div>
+    </PageContainer>
+  )
+}
