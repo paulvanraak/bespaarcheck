@@ -1,22 +1,70 @@
 import { CHECK_STEPS } from '../../data/checkQuestions'
 
 const STEP_STYLES = {
-  context:     { bg: 'bg-primary-500',  ring: 'ring-primary-200',  label: 'bg-primary-50  text-primary-700',  saving: null },
-  energie:     { bg: 'bg-red-500',      ring: 'ring-red-200',      label: 'bg-red-50      text-red-700',      saving: 'Tot €320/jaar' },
-  bank:        { bg: 'bg-blue-500',     ring: 'ring-blue-200',     label: 'bg-blue-50     text-blue-700',     saving: 'Tot €180/jaar' },
-  telecom:     { bg: 'bg-purple-500',   ring: 'ring-purple-200',   label: 'bg-purple-50   text-purple-700',   saving: 'Tot €240/jaar' },
-  verzekering: { bg: 'bg-amber-500',    ring: 'ring-amber-200',    label: 'bg-amber-50    text-amber-700',    saving: 'Tot €150/jaar' },
-  beleggen:    { bg: 'bg-green-600',    ring: 'ring-green-200',    label: 'bg-green-50    text-green-700',    saving: 'Lagere kosten' },
-  vpn:         { bg: 'bg-pink-500',     ring: 'ring-pink-200',     label: 'bg-pink-50     text-pink-700',     saving: 'Tot €80/jaar' },
+  context:     { bg: 'bg-primary-50',  icon: 'text-primary-400', border: 'border-primary-100' },
+  energie:     { bg: 'bg-red-50',      icon: 'text-red-400',     border: 'border-red-100'     },
+  bank:        { bg: 'bg-blue-50',     icon: 'text-blue-400',    border: 'border-blue-100'    },
+  telecom:     { bg: 'bg-purple-50',   icon: 'text-purple-400',  border: 'border-purple-100'  },
+  verzekering: { bg: 'bg-amber-50',    icon: 'text-amber-400',   border: 'border-amber-100'   },
+  beleggen:    { bg: 'bg-green-50',    icon: 'text-green-500',   border: 'border-green-100'   },
+  vpn:         { bg: 'bg-pink-50',     icon: 'text-pink-400',    border: 'border-pink-100'    },
+  result:      { bg: 'bg-accent-50',   icon: 'text-accent-500',  border: 'border-accent-200'  },
+}
+
+// Subtle vertical wave offsets per stap
+const WAVE = [6, -10, 2, 12, 8, -8, 4, -12]
+
+const ALL_STEPS = [
+  ...CHECK_STEPS.map((s, i) => ({ ...s, wave: WAVE[i] ?? 0 })),
+  { id: 'result', icon: 'savings', title: 'Bespaar­overzicht', wave: WAVE[CHECK_STEPS.length] ?? 0 },
+]
+
+const ROW1 = ALL_STEPS.slice(0, 4)
+const ROW2 = ALL_STEPS.slice(4)              // journey continues R→L, display order reversed
+
+function StepNode({ step, isFirst, isResult }) {
+  const s = STEP_STYLES[step.id] ?? STEP_STYLES.context
+  return (
+    <div
+      className="flex flex-col items-center gap-1.5 flex-1 min-w-0"
+      style={{ transform: `translateY(${step.wave}px)` }}
+    >
+      <div className={`
+        w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0
+        ${s.bg} border ${s.border}
+        transition-transform duration-200 hover:scale-110
+        ${isFirst ? 'ring-2 ring-offset-1 ring-primary-200' : ''}
+        ${isResult ? 'ring-2 ring-offset-1 ring-accent-200' : ''}
+      `}>
+        <span className={`material-symbols-rounded text-base sm:text-[19px] ${s.icon}`}>
+          {step.icon}
+        </span>
+      </div>
+      <span className={`
+        text-[9px] sm:text-[11px] text-center leading-tight
+        ${isResult ? 'font-semibold text-accent-600' : 'font-medium text-ink-400'}
+      `} style={{ width: 52 }}>
+        {step.title}
+      </span>
+    </div>
+  )
+}
+
+function Arrow({ dir }) {
+  return (
+    <span className="material-symbols-rounded text-ink-200 text-[13px] sm:text-[15px] flex-shrink-0 mb-5">
+      {dir === 'right' ? 'arrow_forward' : 'arrow_back'}
+    </span>
+  )
 }
 
 export default function CheckIntro({ onStart }) {
   return (
-    <div className="max-w-lg mx-auto px-4 py-10 sm:py-16">
+    <div className="w-full py-10 sm:py-16">
 
       {/* Header */}
-      <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 bg-primary-50 text-primary-500 text-xs font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full mb-4">
+      <div className="max-w-lg mx-auto px-4 text-center mb-10">
+        <div className="inline-flex items-center gap-2 bg-primary-50 text-primary-400 text-xs font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full mb-4">
           <span className="material-symbols-rounded text-sm">bolt</span>
           BespaarCheck
         </div>
@@ -28,74 +76,46 @@ export default function CheckIntro({ onStart }) {
         </p>
       </div>
 
-      {/* Timeline journey */}
-      <div className="relative mb-10">
-        {/* Vertical connector line */}
-        <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-gradient-to-b from-primary-300 via-purple-300 to-pink-300 rounded-full" />
+      {/* Timeline — schermbreed */}
+      <div className="w-full px-3 sm:px-10">
 
-        <div className="space-y-1">
-          {CHECK_STEPS.map((step, i) => {
-            const s = STEP_STYLES[step.id] ?? STEP_STYLES.context
-            const isFirst = i === 0
-            const isLast = i === CHECK_STEPS.length - 1
-
-            return (
-              <div key={step.id} className="relative flex items-center gap-4 group">
-                {/* Icon circle */}
-                <div className={`
-                  relative z-10 w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0
-                  ${s.bg} ring-4 ${s.ring} shadow-sm
-                  transition-transform duration-200 group-hover:scale-110
-                `}>
-                  <span className="material-symbols-rounded text-white text-xl">{step.icon}</span>
-                  {isFirst && (
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent-500 rounded-full flex items-center justify-center">
-                      <span className="material-symbols-rounded text-white text-[10px]">play_arrow</span>
-                    </span>
-                  )}
-                  {isLast && (
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
-                      <span className="material-symbols-rounded text-white text-[10px]">flag</span>
-                    </span>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 flex items-center justify-between py-3">
-                  <div>
-                    <p className={`text-xs font-semibold uppercase tracking-wider mb-0.5 text-ink-300`}>
-                      {isFirst ? 'Start hier' : `Stap ${i}`}
-                    </p>
-                    <p className="text-sm font-semibold text-ink-800">{step.title}</p>
-                  </div>
-                  {s.saving && (
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${s.label}`}>
-                      {s.saving}
-                    </span>
-                  )}
-                </div>
-              </div>
-            )
-          })}
+        {/* Row 1: L → R */}
+        <div className="flex items-end pb-1">
+          {ROW1.map((step, i) => (
+            <div key={step.id} className="contents">
+              <StepNode step={step} isFirst={i === 0} />
+              {i < ROW1.length - 1 && <Arrow dir="right" />}
+            </div>
+          ))}
+          {/* Corner turn: right side curve down */}
+          <div className="flex-shrink-0 self-end mb-4 ml-1">
+            <div className="w-3 h-3 border-r-2 border-b-2 border-ink-200 rounded-br-md" />
+          </div>
         </div>
 
-        {/* Finish badge */}
-        <div className="relative flex items-center gap-4 mt-1">
-          <div className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 bg-accent-500 ring-4 ring-accent-200 shadow-sm">
-            <span className="material-symbols-rounded text-white text-xl">savings</span>
-          </div>
-          <div className="flex-1 py-3">
-            <p className="text-xs font-semibold uppercase tracking-wider mb-0.5 text-ink-300">Resultaat</p>
-            <p className="text-sm font-semibold text-ink-800">Jouw persoonlijk bespaarsoverzicht</p>
-          </div>
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-accent-50 text-accent-700">
-            Gem. €847/jaar
-          </span>
+        {/* Right-side vertical connector */}
+        <div className="flex justify-end pr-1">
+          <div className="w-px h-3 bg-ink-200" />
         </div>
+
+        {/* Row 2: displayed as result←vpn←beleggen←verzekering (reversed) */}
+        <div className="flex items-start pt-1">
+          {/* Left corner: curve from journey's end */}
+          <div className="flex-shrink-0 self-start mt-4 mr-1">
+            <div className="w-3 h-3 border-l-2 border-t-2 border-accent-200 rounded-tl-md" />
+          </div>
+          {[...ROW2].reverse().map((step, i) => (
+            <div key={step.id} className="contents">
+              {i > 0 && <Arrow dir="left" />}
+              <StepNode step={step} isResult={step.id === 'result'} />
+            </div>
+          ))}
+        </div>
+
       </div>
 
       {/* CTA */}
-      <div className="text-center">
+      <div className="max-w-lg mx-auto px-4 text-center mt-10">
         <button
           onClick={onStart}
           className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-base px-10 py-4 rounded-xl transition-colors shadow-lg shadow-accent-600/20"
