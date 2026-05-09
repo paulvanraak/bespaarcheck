@@ -13,7 +13,7 @@ import { UserProvider } from './context/UserContext'
 
 export default function App() {
   return (
-    <BrowserRouter basename="/Discount/">
+    <BrowserRouter basename="/bespaarcheck/">
       <UserProvider>
         <CompareProvider>
           <div className="min-h-screen flex flex-col">

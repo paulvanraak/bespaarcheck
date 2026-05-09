@@ -19,10 +19,10 @@ export default function CheckIntro({ onStart }) {
           BespaarCheck
         </div>
         <h1 className="text-3xl sm:text-4xl font-semibold text-ink-900 mb-3 leading-tight">
-          Ontdek wat je kunt besparen
+          Ontdek wat jij jaarlijks kunt besparen
         </h1>
         <p className="text-ink-500 text-lg">
-          6 vragen · 3 minuten · 1 persoonlijk overzicht
+          7 vragen · 3 minuten · 1 persoonlijk overzicht
         </p>
       </div>
 

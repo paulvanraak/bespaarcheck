@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 
 const STATS = [
-  { value: '€847', label: 'gemiddelde besparing/jaar' },
-  { value: '6', label: 'vragen, 3 minuten' },
-  { value: '100%', label: 'gratis & anoniem' },
+  { value: '€847', label: 'gemiddelde\nbesparing/jaar' },
+  { value: '7', label: 'vragen,\n3 minuten' },
+  { value: '100%', label: 'gratis\n& anoniem' },
 ]
 
 export default function CheckHero() {
@@ -14,10 +14,10 @@ export default function CheckHero() {
           {/* Left — copy */}
           <div>
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-semibold leading-tight mb-4">
-              Ontdek wat je kunt besparen
+              Ontdek wat jij jaarlijks kunt besparen
             </h1>
             <p className="text-primary-200 text-base sm:text-lg mb-8 leading-relaxed">
-              6 vragen, 3 minuten, 1 persoonlijk overzicht.
+              7 vragen, 3 minuten, 1 persoonlijk overzicht.
             </p>
             <Link
               to="/check"
@@ -38,11 +38,13 @@ export default function CheckHero() {
           <div className="grid grid-cols-3 sm:grid-cols-1 gap-2 sm:gap-3">
             {STATS.map((s) => (
               <div
-                key={s.label}
+                key={s.value}
                 className="bg-white/10 rounded-md px-3 sm:px-6 py-3 sm:py-5 backdrop-blur-sm border border-white/10 text-center sm:text-left"
               >
                 <div className="text-2xl sm:text-5xl font-bold text-white leading-none tracking-tight">{s.value}</div>
-                <div className="text-primary-200 text-[11px] sm:text-sm mt-1 sm:mt-2 leading-snug">{s.label}</div>
+                <div className="text-primary-200 text-[11px] sm:text-sm mt-1 sm:mt-2 leading-snug whitespace-pre-line">
+                  {s.label}
+                </div>
               </div>
             ))}
           </div>
