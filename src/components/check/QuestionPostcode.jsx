@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-export default function QuestionPostcode({ value, onChange, hint }) {
+export default function QuestionPostcode({ question, value, onChange, hint }) {
+  const label = question?.label || 'Postcode cijfers'
   const [error, setError] = useState('')
 
   function handleChange(e) {
@@ -15,6 +16,9 @@ export default function QuestionPostcode({ value, onChange, hint }) {
 
   return (
     <div>
+      <label className="block text-xl font-semibold text-ink-900 mb-4">
+        {label}
+      </label>
       <input
         type="text"
         inputMode="numeric"

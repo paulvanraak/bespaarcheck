@@ -9,6 +9,7 @@ export const CONTEXT_STEP = {
       key: 'postcode',
       type: 'postcode',
       label: 'Wat zijn de eerste 4 cijfers van je postcode?',
+      name: 'je postcode',
       hint: 'We gebruiken dit voor regionale tarieven. Geen volledig adres nodig.',
       required: true,
     },
@@ -16,6 +17,7 @@ export const CONTEXT_STEP = {
       key: 'household',
       type: 'choice',
       label: 'Met hoeveel personen woon je?',
+      name: 'je huishoudengrootte',
       options: [
         { value: 1, label: 'Alleen' },
         { value: 2, label: 'Met 2' },
@@ -29,6 +31,7 @@ export const CONTEXT_STEP = {
       key: 'housingType',
       type: 'choice',
       label: 'Wat voor woning heb je?',
+      name: 'je woningtype',
       options: [
         { value: 'apartment', label: 'Appartement' },
         { value: 'terraced', label: 'Tussenwoning' },
@@ -41,6 +44,7 @@ export const CONTEXT_STEP = {
       key: 'ownership',
       type: 'choice',
       label: 'Huur of koop?',
+      name: 'huur of koop',
       options: [
         { value: 'rent', label: 'Huur' },
         { value: 'own', label: 'Koop' },

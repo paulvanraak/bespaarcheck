@@ -62,6 +62,7 @@ export default function CheckPage() {
       onPrev={prevStep}
       isLast={isLastStep}
       saving={saving}
+      answers={answers}
     >
       <CheckStep step={CHECK_STEPS[currentStep]} />
     </CheckLayout>

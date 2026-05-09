@@ -32,6 +32,7 @@ export default function CheckStep({ step }) {
           return (
             <QuestionPostcode
               key={question.key}
+              question={question}
               value={value}
               onChange={(v) => setAnswer(step.id, question.key, v)}
               hint={question.hint}
