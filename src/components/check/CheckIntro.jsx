@@ -11,121 +11,137 @@ const META = {
   result:      { color: '#fb923c', bg: '#fff7ed', border: '#fed7aa', label: 'Bespaar-\noverzicht'  },
 }
 
-const STEPS = [
+const ALL_STEPS = [
   ...CHECK_STEPS,
   { id: 'result', icon: 'savings' },
 ]
+const ROW1 = ALL_STEPS.slice(0, 4)   // context → telecom (L → R)
+const ROW2 = ALL_STEPS.slice(4)       // verzekering → result (R → L, flex-row-reverse)
 
-// ── Desktop ─────────────────────────────────────────────────────────────────
-// viewBox 0 0 900 248 | row1 y=65, row2 y=185 (generous spacing for labels)
-const D = {
-  vb: { w: 900, h: 248 },
-  nodes: [
-    { x: 80,  y: 65  }, // 0 context
-    { x: 267, y: 65  }, // 1 energie
-    { x: 453, y: 65  }, // 2 bank
-    { x: 640, y: 65  }, // 3 telecom
-    { x: 640, y: 185 }, // 4 verzekering
-    { x: 453, y: 185 }, // 5 beleggen
-    { x: 267, y: 185 }, // 6 vpn
-    { x: 80,  y: 185 }, // 7 result
-  ],
-  path: 'M 80,65 L 267,65 L 453,65 L 640,65 L 775,65 L 775,185 L 640,185 L 453,185 L 267,185 L 80,185',
+// Sizes for desktop and mobile
+const CFG = {
+  lg: { circle: 52, iconSz: 22, fontSize: 11, labelGap: 14, lineH: 15, rowGap: 40, px: 48, cornerR: 14 },
+  sm: { circle: 44, iconSz: 18, fontSize:  9, labelGap: 12, lineH: 13, rowGap: 32, px: 12, cornerR:  8 },
 }
 
-// ── Mobile ───────────────────────────────────────────────────────────────────
-// viewBox 0 0 380 248 | row1 y=65, row2 y=185
-const M = {
-  vb: { w: 380, h: 248 },
-  nodes: [
-    { x: 42,  y: 65  }, // 0 context
-    { x: 155, y: 65  }, // 1 energie
-    { x: 268, y: 65  }, // 2 bank
-    { x: 340, y: 65  }, // 3 telecom
-    { x: 340, y: 185 }, // 4 verzekering
-    { x: 228, y: 185 }, // 5 beleggen
-    { x: 115, y: 185 }, // 6 vpn
-    { x: 42,  y: 185 }, // 7 result
-  ],
-  path: 'M 42,65 L 155,65 L 268,65 L 340,65 L 362,65 L 362,185 L 340,185 L 228,185 L 115,185 L 42,185',
+function Node({ step, cfg, isResult }) {
+  const m = META[step.id] ?? META.context
+  return (
+    <div className="flex flex-col items-center relative z-10" style={{ gap: cfg.labelGap }}>
+      {/* Circle — centered on the row line */}
+      <div
+        className="rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 hover:scale-110"
+        style={{
+          width:  cfg.circle,
+          height: cfg.circle,
+          background: m.bg,
+          border: `1.5px solid ${m.border}`,
+          boxShadow: isResult ? `0 0 0 3px ${m.border}55` : undefined,
+        }}
+      >
+        <span
+          className="material-symbols-rounded select-none"
+          style={{ color: m.color, fontSize: cfg.iconSz }}
+        >
+          {step.icon}
+        </span>
+      </div>
+
+      {/* Label below */}
+      <div style={{ width: cfg.circle + 12, textAlign: 'center' }}>
+        {m.label.split('\n').map((line, i) => (
+          <div
+            key={i}
+            style={{
+              fontSize: cfg.fontSize,
+              lineHeight: `${cfg.lineH}px`,
+              color: isResult ? m.color : '#9ca3af',
+              fontWeight: isResult ? 600 : 500,
+            }}
+          >
+            {line}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
-function Timeline({ cfg, steps, radius }) {
-  const { vb, nodes, path } = cfg
+function Timeline({ cfg }) {
+  const half      = cfg.circle / 2                          // circle midpoint = line height
+  const labelH    = cfg.labelGap + cfg.lineH * 2            // approx label block height
+  const rowH      = cfg.circle + labelH                     // total height of one row
+  const connectorH = rowH + cfg.rowGap                      // arc height (row-center to row-center)
+  const R         = cfg.cornerR                             // corner radius
+
+  // The SVG arc replaces the sharp right-angle corner.
+  // It's positioned so its left edge aligns with where the horizontal lines end.
+  // Width = 2R (extends R into the right padding), height = connectorH.
+  // Path: start top-left → quarter-circle top-right → straight down → quarter-circle bottom-left
+  const arcPath = `M 0,0 Q ${R * 2},0 ${R * 2},${R} L ${R * 2},${connectorH - R} Q ${R * 2},${connectorH} 0,${connectorH}`
 
   return (
-    <div
-      className="relative w-full"
-      style={{ paddingBottom: `${(vb.h / vb.w) * 100}%` }}
-    >
-      {/* SVG — only the dotted line */}
+    <div className="relative w-full" style={{ padding: `0 ${cfg.px}px` }}>
+
+      {/* ── Row 1 horizontal line — stops before the arc ── */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left:  cfg.px,
+          right: cfg.px + R,
+          top:   half,
+          borderTop: '2px dashed #ddd6fe',
+        }}
+      />
+
+      {/* ── Row 1 nodes: L → R ── */}
+      <div className="relative flex justify-between items-start">
+        {ROW1.map(step => (
+          <Node key={step.id} step={step} cfg={cfg} />
+        ))}
+      </div>
+
+      {/* ── Rounded right-side connector (SVG arc) ── */}
       <svg
-        className="absolute inset-0 w-full h-full"
-        viewBox={`0 0 ${vb.w} ${vb.h}`}
-        preserveAspectRatio="xMidYMid meet"
-        fill="none"
+        className="absolute pointer-events-none overflow-visible"
+        style={{
+          right:  cfg.px - R,
+          top:    half,
+          width:  R * 2,
+          height: connectorH,
+        }}
       >
         <path
-          d={path}
+          d={arcPath}
           stroke="#ddd6fe"
           strokeWidth="2"
-          strokeDasharray="5 5"
+          strokeDasharray="6 4"
+          fill="none"
           strokeLinecap="round"
-          strokeLinejoin="round"
         />
       </svg>
 
-      {/* Nodes — HTML overlaid on SVG */}
-      {steps.map((step, i) => {
-        const m = META[step.id] ?? META.context
-        const node = nodes[i]
-        const pctX = `${(node.x / vb.w) * 100}%`
-        const pctY = `${(node.y / vb.h) * 100}%`
-        const isResult = step.id === 'result'
+      {/* ── Gap between rows ── */}
+      <div style={{ height: cfg.rowGap }} />
 
-        return (
-          <div
-            key={step.id}
-            className="absolute flex flex-col items-center"
-            style={{
-              left: pctX,
-              top: pctY,
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            {/* Circle */}
-            <div
-              className="rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 hover:scale-110"
-              style={{
-                width: radius * 2,
-                height: radius * 2,
-                background: m.bg,
-                border: `1.5px solid ${m.border}`,
-                boxShadow: isResult ? `0 0 0 3px ${m.border}` : undefined,
-              }}
-            >
-              <span
-                className="material-symbols-rounded"
-                style={{ color: m.color, fontSize: radius * 0.9 }}
-              >
-                {step.icon}
-              </span>
-            </div>
-            {/* Label */}
-            <span
-              className="text-center leading-tight font-medium text-ink-400 whitespace-pre-line mt-1.5"
-              style={{
-                fontSize: Math.max(9, radius * 0.46),
-                width: radius * 2.8,
-                color: isResult ? m.color : undefined,
-                fontWeight: isResult ? 600 : undefined,
-              }}
-            >
-              {m.label}
-            </span>
-          </div>
-        )
-      })}
+      {/* ── Row 2 horizontal line — stops before the arc on the right ── */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left:  cfg.px,
+          right: cfg.px + R,
+          top:   rowH + cfg.rowGap + half,
+          borderTop: '2px dashed #ddd6fe',
+        }}
+      />
+
+      {/* ── Row 2 nodes: R → L (flex-row-reverse so visual is result←vpn←beleggen←verzekering) ── */}
+      <div className="relative flex flex-row-reverse justify-between items-start">
+        {ROW2.map(step => (
+          <Node key={step.id} step={step} cfg={cfg} isResult={step.id === 'result'} />
+        ))}
+      </div>
+
     </div>
   )
 }
@@ -149,13 +165,13 @@ export default function CheckIntro({ onStart }) {
       </div>
 
       {/* Mobile */}
-      <div className="block sm:hidden px-4">
-        <Timeline cfg={M} steps={STEPS} radius={20} />
+      <div className="block sm:hidden">
+        <Timeline cfg={CFG.sm} isMobile />
       </div>
 
       {/* Desktop */}
-      <div className="hidden sm:block px-8 sm:px-14">
-        <Timeline cfg={D} steps={STEPS} radius={26} />
+      <div className="hidden sm:block">
+        <Timeline cfg={CFG.lg} />
       </div>
 
       {/* CTA */}

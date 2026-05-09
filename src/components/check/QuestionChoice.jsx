@@ -3,7 +3,7 @@ export default function QuestionChoice({ question, value, onChange, answers }) {
 
   return (
     <div className="mb-10">
-      <label className="block text-xl font-semibold text-ink-900 mb-5">
+      <label className="block text-lg font-medium text-ink-800 mb-4">
         {question.label}
       </label>
       <div className="flex flex-col gap-2">

@@ -24,37 +24,32 @@ export default function CheckStep({ step }) {
 
   return (
     <div>
-      {visibleQuestions.map((question) => {
+      {visibleQuestions.map((question, i) => {
         const value = stepAnswers[question.key]
         const defaultVal = getDefaultValue(question, { benchmark, context })
 
+        let el = null
+
         if (question.type === 'postcode') {
-          return (
+          el = (
             <QuestionPostcode
-              key={question.key}
               question={question}
               value={value}
               onChange={(v) => setAnswer(step.id, question.key, v)}
               hint={question.hint}
             />
           )
-        }
-
-        if (question.type === 'slider') {
-          return (
+        } else if (question.type === 'slider') {
+          el = (
             <QuestionSlider
-              key={question.key}
               question={question}
               value={value ?? defaultVal}
               onChange={(v) => setAnswer(step.id, question.key, v)}
             />
           )
-        }
-
-        if (question.type === 'choice') {
-          return (
+        } else if (question.type === 'choice') {
+          el = (
             <QuestionChoice
-              key={question.key}
               question={question}
               value={value}
               onChange={(v) => setAnswer(step.id, question.key, v)}
@@ -63,7 +58,16 @@ export default function CheckStep({ step }) {
           )
         }
 
-        return null
+        if (!el) return null
+
+        return (
+          <div key={question.key}>
+            {i > 0 && (
+              <hr className="border-ink-100 mb-6" />
+            )}
+            {el}
+          </div>
+        )
       })}
     </div>
   )
