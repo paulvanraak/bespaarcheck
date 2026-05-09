@@ -1,6 +1,5 @@
 import { CHECK_STEPS } from '../../data/checkQuestions'
 
-// Per stap: kleur, icon, etc.
 const META = {
   context:     { color: '#818cf8', bg: '#eef2ff', border: '#c7d2fe', label: 'Even iets\nover jou' },
   energie:     { color: '#f87171', bg: '#fef2f2', border: '#fecaca', label: 'Energie'              },
@@ -17,151 +16,116 @@ const STEPS = [
   { id: 'result', icon: 'savings' },
 ]
 
-// ─── Desktop layout ─────────────────────────────────────────────────────────
-// SVG viewBox: 0 0 900 210
-// Smooth S-curve: row 1 L→R (y ≈ 55–85), row 2 R→L (y ≈ 135–168)
-const D_VB = { w: 900, h: 210 }
-
-const D_NODES = [
-  { x: 82,  y: 75  },  // 0 context
-  { x: 258, y: 50  },  // 1 energie
-  { x: 435, y: 82  },  // 2 bank
-  { x: 612, y: 52  },  // 3 telecom
-  { x: 742, y: 148 },  // 4 verzekering
-  { x: 580, y: 170 },  // 5 beleggen
-  { x: 402, y: 142 },  // 6 vpn
-  { x: 178, y: 164 },  // 7 result
-]
-
-const D_PATH = [
-  'M 82,75',
-  'C 150,75 192,50 258,50',
-  'C 324,50 368,82 435,82',
-  'C 502,82 546,52 612,52',
-  'C 685,52 778,108 748,148',
-  'C 718,175 650,170 580,170',
-  'C 510,170 468,142 402,142',
-  'C 330,142 270,164 178,164',
-].join(' ')
-
-// ─── Mobile layout ───────────────────────────────────────────────────────────
-// SVG viewBox: 0 0 380 295
-// Same snake concept but portrait-ish
-const M_VB = { w: 380, h: 295 }
-
-const M_NODES = [
-  { x: 42,  y: 78  },  // 0 context
-  { x: 155, y: 55  },  // 1 energie
-  { x: 268, y: 82  },  // 2 bank
-  { x: 352, y: 56  },  // 3 telecom
-  { x: 352, y: 195 },  // 4 verzekering
-  { x: 248, y: 218 },  // 5 beleggen
-  { x: 138, y: 192 },  // 6 vpn
-  { x: 42,  y: 218 },  // 7 result
-]
-
-const M_PATH = [
-  'M 42,78',
-  'C 85,78 112,55 155,55',
-  'C 198,55 225,82 268,82',
-  'C 311,82 332,56 352,56',
-  'C 375,56 380,120 378,155',
-  'C 376,178 372,195 352,195',
-  'C 310,195 285,218 248,218',
-  'C 210,218 178,192 138,192',
-  'C 98,192 72,218 42,218',
-].join(' ')
-
-function NodeCircle({ step, x, y, vbW, vbH, radius = 22 }) {
-  const m = META[step.id] ?? META.context
-  const pctX = `${(x / vbW) * 100}%`
-  const pctY = `${(y / vbH) * 100}%`
-
-  return (
-    <div
-      className="absolute flex flex-col items-center gap-1"
-      style={{ left: pctX, top: pctY, transform: 'translate(-50%, -50%)' }}
-    >
-      <div
-        className="rounded-2xl flex items-center justify-center shadow-sm transition-transform duration-200 hover:scale-110 flex-shrink-0"
-        style={{
-          width: radius * 2,
-          height: radius * 2,
-          background: m.bg,
-          border: `1.5px solid ${m.border}`,
-        }}
-      >
-        <span
-          className="material-symbols-rounded"
-          style={{ color: m.color, fontSize: radius * 0.9 }}
-        >
-          {step.icon}
-        </span>
-      </div>
-      <span
-        className="text-center leading-tight font-medium text-ink-400 whitespace-pre-line"
-        style={{ fontSize: Math.max(8, radius * 0.46), width: radius * 2.6 }}
-      >
-        {m.label}
-      </span>
-    </div>
-  )
+// ── Desktop ─────────────────────────────────────────────────────────────────
+// viewBox 0 0 900 248 | row1 y=65, row2 y=185 (generous spacing for labels)
+const D = {
+  vb: { w: 900, h: 248 },
+  nodes: [
+    { x: 80,  y: 65  }, // 0 context
+    { x: 267, y: 65  }, // 1 energie
+    { x: 453, y: 65  }, // 2 bank
+    { x: 640, y: 65  }, // 3 telecom
+    { x: 640, y: 185 }, // 4 verzekering
+    { x: 453, y: 185 }, // 5 beleggen
+    { x: 267, y: 185 }, // 6 vpn
+    { x: 80,  y: 185 }, // 7 result
+  ],
+  path: 'M 80,65 L 267,65 L 453,65 L 640,65 L 775,65 L 775,185 L 640,185 L 453,185 L 267,185 L 80,185',
 }
 
-function Timeline({ nodes, path, vb, steps, radius }) {
+// ── Mobile ───────────────────────────────────────────────────────────────────
+// viewBox 0 0 380 248 | row1 y=65, row2 y=185
+const M = {
+  vb: { w: 380, h: 248 },
+  nodes: [
+    { x: 42,  y: 65  }, // 0 context
+    { x: 155, y: 65  }, // 1 energie
+    { x: 268, y: 65  }, // 2 bank
+    { x: 340, y: 65  }, // 3 telecom
+    { x: 340, y: 185 }, // 4 verzekering
+    { x: 228, y: 185 }, // 5 beleggen
+    { x: 115, y: 185 }, // 6 vpn
+    { x: 42,  y: 185 }, // 7 result
+  ],
+  path: 'M 42,65 L 155,65 L 268,65 L 340,65 L 362,65 L 362,185 L 340,185 L 228,185 L 115,185 L 42,185',
+}
+
+function Timeline({ cfg, steps, radius }) {
+  const { vb, nodes, path } = cfg
+
   return (
     <div
       className="relative w-full"
       style={{ paddingBottom: `${(vb.h / vb.w) * 100}%` }}
     >
-      {/* SVG path */}
+      {/* SVG — only the dotted line */}
       <svg
         className="absolute inset-0 w-full h-full"
         viewBox={`0 0 ${vb.w} ${vb.h}`}
         preserveAspectRatio="xMidYMid meet"
         fill="none"
       >
-        <defs>
-          <linearGradient id={`grad-${vb.w}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#c7d2fe" />
-            <stop offset="45%"  stopColor="#e9d5ff" />
-            <stop offset="100%" stopColor="#fed7aa" />
-          </linearGradient>
-        </defs>
-        {/* Shadow/glow layer */}
         <path
           d={path}
-          stroke="#e2e8f0"
-          strokeWidth="5"
+          stroke="#ddd6fe"
+          strokeWidth="2"
+          strokeDasharray="5 5"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        {/* Main line */}
-        <path
-          d={path}
-          stroke={`url(#grad-${vb.w})`}
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {/* Start dot */}
-        <circle cx={nodes[0].x} cy={nodes[0].y} r="5" fill="#818cf8" opacity="0.5" />
-        {/* End dot */}
-        <circle cx={nodes[nodes.length - 1].x} cy={nodes[nodes.length - 1].y} r="5" fill="#fb923c" opacity="0.5" />
       </svg>
 
-      {/* HTML nodes overlaid */}
-      {steps.map((step, i) => (
-        <NodeCircle
-          key={step.id}
-          step={step}
-          x={nodes[i].x}
-          y={nodes[i].y}
-          vbW={vb.w}
-          vbH={vb.h}
-          radius={radius}
-        />
-      ))}
+      {/* Nodes — HTML overlaid on SVG */}
+      {steps.map((step, i) => {
+        const m = META[step.id] ?? META.context
+        const node = nodes[i]
+        const pctX = `${(node.x / vb.w) * 100}%`
+        const pctY = `${(node.y / vb.h) * 100}%`
+        const isResult = step.id === 'result'
+
+        return (
+          <div
+            key={step.id}
+            className="absolute flex flex-col items-center"
+            style={{
+              left: pctX,
+              top: pctY,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            {/* Circle */}
+            <div
+              className="rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 hover:scale-110"
+              style={{
+                width: radius * 2,
+                height: radius * 2,
+                background: m.bg,
+                border: `1.5px solid ${m.border}`,
+                boxShadow: isResult ? `0 0 0 3px ${m.border}` : undefined,
+              }}
+            >
+              <span
+                className="material-symbols-rounded"
+                style={{ color: m.color, fontSize: radius * 0.9 }}
+              >
+                {step.icon}
+              </span>
+            </div>
+            {/* Label */}
+            <span
+              className="text-center leading-tight font-medium text-ink-400 whitespace-pre-line mt-1.5"
+              style={{
+                fontSize: Math.max(9, radius * 0.46),
+                width: radius * 2.8,
+                color: isResult ? m.color : undefined,
+                fontWeight: isResult ? 600 : undefined,
+              }}
+            >
+              {m.label}
+            </span>
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -171,7 +135,7 @@ export default function CheckIntro({ onStart }) {
     <div className="w-full py-10 sm:py-16">
 
       {/* Header */}
-      <div className="max-w-lg mx-auto px-4 text-center mb-10 sm:mb-12">
+      <div className="max-w-lg mx-auto px-4 text-center mb-10 sm:mb-14">
         <div className="inline-flex items-center gap-2 bg-primary-50 text-primary-400 text-xs font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full mb-4">
           <span className="material-symbols-rounded text-sm">bolt</span>
           BespaarCheck
@@ -184,14 +148,14 @@ export default function CheckIntro({ onStart }) {
         </p>
       </div>
 
-      {/* Mobile timeline */}
-      <div className="block sm:hidden px-3">
-        <Timeline nodes={M_NODES} path={M_PATH} vb={M_VB} steps={STEPS} radius={20} />
+      {/* Mobile */}
+      <div className="block sm:hidden px-4">
+        <Timeline cfg={M} steps={STEPS} radius={20} />
       </div>
 
-      {/* Desktop timeline */}
-      <div className="hidden sm:block px-6 sm:px-10">
-        <Timeline nodes={D_NODES} path={D_PATH} vb={D_VB} steps={STEPS} radius={26} />
+      {/* Desktop */}
+      <div className="hidden sm:block px-8 sm:px-14">
+        <Timeline cfg={D} steps={STEPS} radius={26} />
       </div>
 
       {/* CTA */}
