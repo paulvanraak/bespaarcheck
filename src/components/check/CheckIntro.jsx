@@ -20,7 +20,7 @@ const ROW2 = ALL_STEPS.slice(4)       // verzekering → result (R → L, flex-r
 
 // Sizes for desktop and mobile
 const CFG = {
-  lg: { circle: 52, iconSz: 22, fontSize: 11, labelGap: 14, lineH: 15, rowGap: 40, px: 48, cornerR: 14 },
+  lg: { circle: 72, iconSz: 28, fontSize: 12, labelGap: 16, lineH: 16, rowGap: 52, px: 40, cornerR: 18 },
   sm: { circle: 44, iconSz: 18, fontSize:  9, labelGap: 12, lineH: 13, rowGap: 32, px: 12, cornerR:  8 },
 }
 
@@ -35,7 +35,7 @@ function Node({ step, cfg, isResult }) {
           width:  cfg.circle,
           height: cfg.circle,
           background: m.bg,
-          border: `1.5px solid ${m.border}`,
+          border: `2px solid ${m.border}`,
           boxShadow: isResult ? `0 0 0 3px ${m.border}55` : undefined,
         }}
       >
@@ -169,8 +169,8 @@ export default function CheckIntro({ onStart }) {
         <Timeline cfg={CFG.sm} isMobile />
       </div>
 
-      {/* Desktop */}
-      <div className="hidden sm:block">
+      {/* Desktop — max-w-5xl keeps it proportional on ultrawide screens */}
+      <div className="hidden sm:block max-w-5xl mx-auto">
         <Timeline cfg={CFG.lg} />
       </div>
 
