@@ -687,9 +687,6 @@ video {
 .grid-cols-3{
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
-.flex-row-reverse{
-  flex-direction: row-reverse;
-}
 .flex-col{
   flex-direction: column;
 }
@@ -776,8 +773,8 @@ video {
 .overflow-hidden{
   overflow: hidden;
 }
-.overflow-visible{
-  overflow: visible;
+.overflow-x-auto{
+  overflow-x: auto;
 }
 .whitespace-nowrap{
   white-space: nowrap;
@@ -1022,6 +1019,9 @@ video {
 .py-8{
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+.pb-2{
+  padding-bottom: 0.5rem;
 }
 .pb-2\.5{
   padding-bottom: 0.625rem;
