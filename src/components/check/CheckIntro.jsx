@@ -14,20 +14,18 @@ const ALL_STEPS = [
   ...CHECK_STEPS,
   { id: 'result', icon: 'savings' },
 ]
-const ROW1 = ALL_STEPS.slice(0, 4)   // context → telecom (L → R)
-const ROW2 = ALL_STEPS.slice(4)       // verzekering → vpn → result (R → L, flex-row-reverse)
 
 // Sizes for desktop and mobile
 const CFG = {
-  lg: { circle: 72, iconSz: 28, fontSize: 12, labelGap: 16, lineH: 16, rowGap: 52, px: 40, cornerR: 18 },
-  sm: { circle: 44, iconSz: 18, fontSize:  9, labelGap: 12, lineH: 13, rowGap: 32, px: 12, cornerR:  8 },
+  lg: { circle: 68, iconSz: 26, fontSize: 11, labelGap: 14, lineH: 15, px: 24 },
+  sm: { circle: 40, iconSz: 15, fontSize:  8, labelGap:  8, lineH: 12, px: 16 },
 }
 
 function Node({ step, cfg, isResult }) {
   const m = META[step.id] ?? META.context
   return (
-    <div className="flex flex-col items-center relative z-10" style={{ gap: cfg.labelGap }}>
-      {/* Circle — centered on the row line */}
+    <div className="flex flex-col items-center relative z-10 flex-shrink-0" style={{ gap: cfg.labelGap }}>
+      {/* Circle */}
       <div
         className="rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 hover:scale-110"
         style={{
@@ -46,8 +44,8 @@ function Node({ step, cfg, isResult }) {
         </span>
       </div>
 
-      {/* Label below */}
-      <div style={{ width: cfg.circle + 12, textAlign: 'center' }}>
+      {/* Label */}
+      <div style={{ width: cfg.circle + 8, textAlign: 'center' }}>
         {m.label.split('\n').map((line, i) => (
           <div
             key={i}
@@ -67,80 +65,27 @@ function Node({ step, cfg, isResult }) {
 }
 
 function Timeline({ cfg }) {
-  const half      = cfg.circle / 2                          // circle midpoint = line height
-  const labelH    = cfg.labelGap + cfg.lineH * 2            // approx label block height
-  const rowH      = cfg.circle + labelH                     // total height of one row
-  const connectorH = rowH + cfg.rowGap                      // arc height (row-center to row-center)
-  const R         = cfg.cornerR                             // corner radius
-
-  // The SVG arc replaces the sharp right-angle corner.
-  // It's positioned so its left edge aligns with where the horizontal lines end.
-  // Width = 2R (extends R into the right padding), height = connectorH.
-  // Path: start top-left → quarter-circle top-right → straight down → quarter-circle bottom-left
-  const arcPath = `M 0,0 Q ${R * 2},0 ${R * 2},${R} L ${R * 2},${connectorH - R} Q ${R * 2},${connectorH} 0,${connectorH}`
+  const half = cfg.circle / 2
 
   return (
     <div className="relative w-full" style={{ padding: `0 ${cfg.px}px` }}>
-
-      {/* ── Row 1 horizontal line — stops before the arc ── */}
+      {/* Single horizontal dashed line through circle centers */}
       <div
         className="absolute pointer-events-none"
         style={{
           left:  cfg.px,
-          right: cfg.px + R,
+          right: cfg.px,
           top:   half,
           borderTop: '2px dashed #ddd6fe',
         }}
       />
 
-      {/* ── Row 1 nodes: L → R ── */}
+      {/* All 7 nodes in one row */}
       <div className="relative flex justify-between items-start">
-        {ROW1.map(step => (
-          <Node key={step.id} step={step} cfg={cfg} />
-        ))}
-      </div>
-
-      {/* ── Rounded right-side connector (SVG arc) ── */}
-      <svg
-        className="absolute pointer-events-none overflow-visible"
-        style={{
-          right:  cfg.px - R,
-          top:    half,
-          width:  R * 2,
-          height: connectorH,
-        }}
-      >
-        <path
-          d={arcPath}
-          stroke="#ddd6fe"
-          strokeWidth="2"
-          strokeDasharray="6 4"
-          fill="none"
-          strokeLinecap="round"
-        />
-      </svg>
-
-      {/* ── Gap between rows ── */}
-      <div style={{ height: cfg.rowGap }} />
-
-      {/* ── Row 2 horizontal line — stops before the arc on the right ── */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          left:  cfg.px,
-          right: cfg.px + R,
-          top:   rowH + cfg.rowGap + half,
-          borderTop: '2px dashed #ddd6fe',
-        }}
-      />
-
-      {/* ── Row 2 nodes: R → L (flex-row-reverse so visual is result←vpn←beleggen←verzekering) ── */}
-      <div className="relative flex flex-row-reverse justify-between items-start">
-        {ROW2.map(step => (
+        {ALL_STEPS.map(step => (
           <Node key={step.id} step={step} cfg={cfg} isResult={step.id === 'result'} />
         ))}
       </div>
-
     </div>
   )
 }
@@ -163,12 +108,14 @@ export default function CheckIntro({ onStart }) {
         </p>
       </div>
 
-      {/* Mobile */}
-      <div className="block sm:hidden">
-        <Timeline cfg={CFG.sm} isMobile />
+      {/* Mobile — horizontaal scrollbaar zodat alle nodes zichtbaar blijven */}
+      <div className="block sm:hidden overflow-x-auto pb-2" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div style={{ minWidth: 480 }}>
+          <Timeline cfg={CFG.sm} />
+        </div>
       </div>
 
-      {/* Desktop — max-w-5xl keeps it proportional on ultrawide screens */}
+      {/* Desktop — max-w-5xl centered */}
       <div className="hidden sm:block max-w-5xl mx-auto">
         <Timeline cfg={CFG.lg} />
       </div>
