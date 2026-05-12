@@ -10,7 +10,6 @@ export async function calculateSavings(answers) {
     answers.bank     && calculateBankSavings(answers.bank, context).then(r => r && (results.bank = r) && (total += r.yearlySaving)),
     answers.telecom  && calculateTelecomSavings(answers.telecom, context).then(r => r && (results.telecom = r) && (total += r.yearlySaving)),
     answers.verzekering && calculateInsuranceSavings(answers.verzekering, context).then(r => r && (results.verzekering = r) && (total += r.yearlySaving)),
-    answers.beleggen && calculateInvestingSavings(answers.beleggen, context).then(r => r && (results.beleggen = r) && (total += r.yearlySaving)),
     answers.vpn      && calculateVPNSavings(answers.vpn, context).then(r => r && (results.vpn = r) && (total += r.yearlySaving)),
   ].filter(Boolean)
 
@@ -139,26 +138,6 @@ async function calculateInsuranceSavings(answers, context) {
   }
 }
 
-async function calculateInvestingSavings(answers, context) {
-  if (answers.invests !== 'yes') return null
-  const traditionalPlatforms = ['ing', 'rabo', 'abn', 'binck']
-  if (!traditionalPlatforms.includes(answers.platform)) return null
-
-  const portfolioSize = answers.portfolio_size || 15000
-  const yearlySaving = Math.round(portfolioSize * 0.0095)
-
-  return {
-    currentPlatform: answers.platform,
-    suggestedProvider: 'degiro',
-    suggestedProviderName: 'DEGIRO',
-    yearlySaving,
-    welcomeBonus: 0,
-    confidence: 0.85,
-    timingAdvice: 'Overstappen kost een paar weken — alle posities moeten worden overgeschreven.',
-    savable: yearlySaving > 30,
-    easeOfSwitch: 'medium',
-  }
-}
 
 async function calculateVPNSavings(answers, context) {
   if (answers.has_vpn !== 'yes') return null

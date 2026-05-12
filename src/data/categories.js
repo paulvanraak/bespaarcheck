@@ -44,15 +44,6 @@ export const CATEGORIES = [
     color: 'amber',
     available: false,
   },
-  {
-    slug: 'beleggen',
-    name: 'Beleggen',
-    tagline: 'Lage tarieven, slim beleggen',
-    description: 'Vergelijk beleggingsapps en brokers.',
-    icon: 'trending_up',
-    color: 'green',
-    available: false,
-  },
 ]
 
 export const getCategoryBySlug = (slug) =>

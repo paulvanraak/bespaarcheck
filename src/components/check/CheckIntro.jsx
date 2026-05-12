@@ -6,7 +6,6 @@ const META = {
   bank:        { color: '#60a5fa', bg: '#eff6ff', border: '#bfdbfe', label: 'Bankrekening'         },
   telecom:     { color: '#c084fc', bg: '#faf5ff', border: '#e9d5ff', label: 'Internet\n& mobiel'   },
   verzekering: { color: '#fbbf24', bg: '#fffbeb', border: '#fde68a', label: 'Verzeke-\nringen'     },
-  beleggen:    { color: '#4ade80', bg: '#f0fdf4', border: '#bbf7d0', label: 'Beleggen'             },
   vpn:         { color: '#f472b6', bg: '#fdf2f8', border: '#fbcfe8', label: 'VPN'                  },
   result:      { color: '#fb923c', bg: '#fff7ed', border: '#fed7aa', label: 'Bespaar-\noverzicht'  },
 }
@@ -16,7 +15,7 @@ const ALL_STEPS = [
   { id: 'result', icon: 'savings' },
 ]
 const ROW1 = ALL_STEPS.slice(0, 4)   // context → telecom (L → R)
-const ROW2 = ALL_STEPS.slice(4)       // verzekering → result (R → L, flex-row-reverse)
+const ROW2 = ALL_STEPS.slice(4)       // verzekering → vpn → result (R → L, flex-row-reverse)
 
 // Sizes for desktop and mobile
 const CFG = {
@@ -160,7 +159,7 @@ export default function CheckIntro({ onStart }) {
           Jouw persoonlijke bespaarreis
         </h1>
         <p className="text-ink-400 text-base">
-          7 stappen · 3 minuten · direct resultaat
+          6 stappen · 3 minuten · direct resultaat
         </p>
       </div>
 

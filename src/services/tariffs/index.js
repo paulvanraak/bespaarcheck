@@ -2,7 +2,6 @@ import { ENERGY_PROVIDERS } from './providers/energy'
 import { BANKING_PROVIDERS } from './providers/banking'
 import { TELECOM_PROVIDERS } from './providers/telecom'
 import { INSURANCE_PROVIDERS } from './providers/insurance'
-import { INVESTING_PROVIDERS } from './providers/investing'
 import { VPN_PROVIDERS } from './providers/vpn'
 import { BENCHMARKS } from './benchmarks'
 
@@ -12,7 +11,6 @@ const PROVIDERS_BY_CATEGORY = {
   bankrekening: BANKING_PROVIDERS,
   telecom: TELECOM_PROVIDERS,
   verzekering: INSURANCE_PROVIDERS,
-  beleggen: INVESTING_PROVIDERS,
   vpn: VPN_PROVIDERS,
   'vpn-hosting': VPN_PROVIDERS,
 }

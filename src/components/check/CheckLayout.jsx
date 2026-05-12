@@ -6,7 +6,6 @@ const STEP_COLORS = {
   bank:         'text-blue-500 bg-blue-50',
   telecom:      'text-purple-500 bg-purple-50',
   verzekering:  'text-amber-500 bg-amber-50',
-  beleggen:     'text-green-600 bg-green-50',
   vpn:          'text-pink-500 bg-pink-50',
 }
 

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const STATS = [
   { value: '€847', label: 'gemiddelde\nbesparing/jaar' },
-  { value: '7', label: 'vragen,\n3 minuten' },
+  { value: '6', label: 'vragen,\n3 minuten' },
   { value: '100%', label: 'gratis\n& anoniem' },
 ]
 
@@ -17,7 +17,7 @@ export default function CheckHero() {
               Ontdek wat jij jaarlijks kunt besparen
             </h1>
             <p className="text-primary-200 text-base sm:text-lg mb-8 leading-relaxed">
-              7 vragen, 3 minuten, 1 persoonlijk overzicht.
+              6 vragen, 3 minuten, 1 persoonlijk overzicht.
             </p>
             <Link
               to="/check"

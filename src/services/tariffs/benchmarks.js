@@ -28,9 +28,5 @@ export const BENCHMARKS = {
     home: 18,
   }),
   bank: () => ({ monthlyFee: 2.50 }),
-  beleggen: ({ portfolioSize = 10000 } = {}) => ({
-    traditionalCostPct: 0.012, cheapCostPct: 0.0025,
-    yearlyDiff: portfolioSize * (0.012 - 0.0025),
-  }),
   vpn: () => ({ avgMonthly: 8, cheapestMonthly: 3.39 }),
 }

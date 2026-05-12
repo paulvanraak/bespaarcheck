@@ -10,7 +10,6 @@ const CATEGORY_META = {
   bank:        { icon: 'account_balance', label: 'Bankrekening',     slug: 'bankrekening', iconCls: 'text-blue-500 bg-blue-50' },
   telecom:     { icon: 'smartphone',     label: 'Internet & mobiel', slug: 'telecom',      iconCls: 'text-purple-500 bg-purple-50' },
   verzekering: { icon: 'shield',         label: 'Verzekeringen',     slug: 'verzekering',  iconCls: 'text-amber-500 bg-amber-50' },
-  beleggen:    { icon: 'trending_up',    label: 'Beleggen',          slug: 'beleggen',     iconCls: 'text-green-600 bg-green-50' },
   vpn:         { icon: 'language',       label: 'VPN',               slug: 'vpn-hosting',  iconCls: 'text-pink-500 bg-pink-50' },
 }
 

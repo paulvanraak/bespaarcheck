@@ -278,45 +278,6 @@ export const CHECK_STEPS = [
     ],
   },
   {
-    id: 'beleggen',
-    title: 'Beleggen',
-    icon: 'trending_up',
-    color: 'green',
-    questions: [
-      {
-        key: 'invests',
-        type: 'choice',
-        label: 'Beleg je momenteel?',
-        options: [
-          { value: 'yes', label: 'Ja' },
-          { value: 'no', label: 'Nee, nog niet' },
-        ],
-      },
-      {
-        key: 'platform',
-        type: 'choice',
-        label: 'Bij welk platform?',
-        showIf: (answers) => answers.beleggen?.invests === 'yes',
-        options: [
-          { value: 'ing', label: 'ING' },
-          { value: 'rabo', label: 'Rabobank' },
-          { value: 'abn', label: 'ABN AMRO' },
-          { value: 'binck', label: 'Binck/Saxo' },
-          { value: 'degiro', label: 'DEGIRO' },
-          { value: 'bux', label: 'BUX' },
-          { value: 'other', label: 'Anders' },
-        ],
-      },
-      {
-        key: 'portfolio_size',
-        type: 'slider',
-        label: 'Hoe groot is je portfolio (bij benadering)?',
-        showIf: (answers) => answers.beleggen?.invests === 'yes',
-        min: 1000, max: 100000, step: 1000, default: 15000, unit: '€',
-      },
-    ],
-  },
-  {
     id: 'vpn',
     title: 'VPN',
     icon: 'language',
