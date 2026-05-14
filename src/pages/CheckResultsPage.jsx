@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useLocation, Link } from 'react-router-dom'
 import { getCheckById } from '../services/check'
 import { sortByQuickWins } from '../services/savings'
+import { isLegacyCheck, validateAnswers } from '../services/checkValidation'
 import ResultsHero from '../components/results/ResultsHero'
 import ResultCategoryCard from '../components/results/ResultCategoryCard'
 import EmailOptIn from '../components/results/EmailOptIn'
@@ -37,6 +38,13 @@ export default function CheckResultsPage() {
     [check]
   )
 
+  const legacy = useMemo(() => isLegacyCheck(check), [check])
+
+  const validationWarnings = useMemo(
+    () => (check?.answers ? validateAnswers(check.answers) : []),
+    [check]
+  )
+
   if (loading) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
@@ -62,6 +70,33 @@ export default function CheckResultsPage() {
         totalSavings={Number(check.total_savings)}
         score={Number(check.score)}
       />
+
+      {/* Legacy check banner */}
+      {legacy ? (
+        <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-6">
+          <span className="material-symbols-rounded text-amber-500 flex-shrink-0 mt-0.5">info</span>
+          <div>
+            <p className="text-sm font-semibold text-amber-800">Beperkte nauwkeurigheid</p>
+            <p className="text-xs text-amber-700 mt-0.5">
+              Deze check is gemaakt vóór onze accuratesse-update. Doe een{' '}
+              <Link to="/check" className="underline font-medium">nieuwe check</Link>{' '}
+              voor een veel preciezer beeld — het duurt nog geen 3 minuten.
+            </p>
+          </div>
+        </div>
+      ) : null}
+
+      {/* Validation warnings */}
+      {validationWarnings.length > 0 ? (
+        <div className="space-y-2 mb-6">
+          {validationWarnings.map((w, i) => (
+            <div key={i} className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+              <span className="material-symbols-rounded text-amber-500 flex-shrink-0 mt-0.5 text-sm">warning</span>
+              <p className="text-xs text-amber-800">{w.message}</p>
+            </div>
+          ))}
+        </div>
+      ) : null}
 
       {/* Fix: ternary i.p.v. && voor conditioneel renderen (rendering-conditional-render) */}
       {sorted.length > 0 ? (

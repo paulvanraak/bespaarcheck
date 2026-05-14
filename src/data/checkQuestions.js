@@ -135,6 +135,15 @@ export const CHECK_STEPS = [
           { value: 'yes', label: 'Ja' },
         ],
       },
+      {
+        key: 'has_heatpump',
+        type: 'choice',
+        label: 'Heb je een warmtepomp?',
+        options: [
+          { value: 'no', label: 'Nee' },
+          { value: 'yes', label: 'Ja' },
+        ],
+      },
     ],
   },
   {
@@ -247,6 +256,18 @@ export const CHECK_STEPS = [
         ],
       },
       {
+        key: 'car_age',
+        type: 'choice',
+        label: 'Hoe oud is je auto ongeveer?',
+        showIf: (a) => a.verzekering?.has_car === 'yes',
+        options: [
+          { value: '0-3',  label: '0–3 jaar' },
+          { value: '3-7',  label: '3–7 jaar' },
+          { value: '7-15', label: '7–15 jaar' },
+          { value: '15+',  label: 'Ouder dan 15 jaar' },
+        ],
+      },
+      {
         key: 'car_monthly',
         type: 'slider',
         label: 'Wat betaal je per maand aan autoverzekering?',
@@ -260,11 +281,22 @@ export const CHECK_STEPS = [
         type: 'choice',
         label: 'Wat is je vrijwillig eigen risico?',
         options: [
-          { value: 0, label: '€0 (alleen verplicht)' },
+          { value: 0,   label: '€0 (alleen verplicht)' },
           { value: 100, label: '€100' },
           { value: 200, label: '€200' },
           { value: 300, label: '€300' },
           { value: 500, label: '€500 (max)' },
+        ],
+      },
+      {
+        key: 'health_addon',
+        type: 'choice',
+        label: 'Heb je aanvullende verzekering?',
+        options: [
+          { value: 'no',        label: 'Nee, alleen basis' },
+          { value: 'basic',     label: 'Beperkte aanvulling' },
+          { value: 'extensive', label: 'Uitgebreide aanvulling' },
+          { value: 'tandarts',  label: 'Tandarts-pakket' },
         ],
       },
       {
@@ -274,6 +306,17 @@ export const CHECK_STEPS = [
         min: 110, max: 220, step: 5,
         defaultFromBenchmark: (ctx) => ctx.benchmark?.health,
         unit: '€',
+      },
+      {
+        key: 'has_home_insurance',
+        type: 'choice',
+        label: 'Heb je een inboedel- of opstalverzekering?',
+        showIf: (a, ctx) => ctx?.context?.ownership === 'own',
+        options: [
+          { value: 'both',          label: 'Inboedel én opstal' },
+          { value: 'inboedel_only', label: 'Alleen inboedel' },
+          { value: 'no',            label: 'Geen' },
+        ],
       },
     ],
   },

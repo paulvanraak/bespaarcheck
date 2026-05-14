@@ -27,6 +27,62 @@ function getTimingAdvice(contractEnd) {
   }
 }
 
+function calcYearlyForProvider(p, kwh, m3) {
+  return (kwh * p.pricing.kwhRate) + (m3 * p.pricing.m3Rate) + (12 * p.pricing.fixedFee)
+}
+
+function buildEnergyScenarios(providers, kwh, m3, currentYearly) {
+  const byType = {
+    variable:  providers.filter(p => p.pricing.contractType === 'variable'),
+    fixed_1yr: providers.filter(p => p.pricing.contractType === 'fixed_1yr'),
+    fixed_3yr: providers.filter(p => p.pricing.contractType === 'fixed_3yr'),
+  }
+  const scenarios = {}
+  for (const [type, list] of Object.entries(byType)) {
+    if (!list.length) continue
+    const cheapest = list
+      .map(p => ({ provider: p, yearly: calcYearlyForProvider(p, kwh, m3) }))
+      .sort((a, b) => a.yearly - b.yearly)[0]
+    scenarios[type] = {
+      provider: cheapest.provider.slug,
+      providerName: cheapest.provider.name,
+      yearly: Math.round(cheapest.yearly),
+      saving: Math.round(currentYearly - cheapest.yearly),
+    }
+  }
+  return scenarios
+}
+
+async function calculateWithHeatpump(kwh, m3, context, answers, providers, currentYearly) {
+  // Warmtepomp: hoger stroomverbruik, lager gasverbruik (vervangt deels gas)
+  const heatpumpKwh = kwh + 3000
+  const heatpumpM3  = Math.max(0, m3 * 0.3) // ~70% gasreductie
+
+  const ranked = providers
+    .map(p => ({ provider: p, yearly: calcYearlyForProvider(p, heatpumpKwh, heatpumpM3) }))
+    .sort((a, b) => a.yearly - b.yearly)
+
+  if (!ranked.length) return null
+  const cheapest = ranked[0]
+  const welcomeBonus = cheapest.provider.welcomeBonus?.amount || 0
+  const yearTwoSaving = Math.round(currentYearly - cheapest.yearly)
+
+  return {
+    currentYearly: Math.round(currentYearly),
+    suggestedProvider: cheapest.provider.slug,
+    suggestedProviderName: cheapest.provider.name,
+    yearlySaving: yearTwoSaving,
+    yearOneSaving: Math.round(yearTwoSaving + welcomeBonus),
+    welcomeBonus,
+    confidence: answers.kwh && answers.m3 ? 0.90 : 0.60,
+    timingAdvice: getTimingAdvice(answers.contract_end),
+    savable: yearTwoSaving > 50,
+    easeOfSwitch: 'medium',
+    scenarios: buildEnergyScenarios(providers, heatpumpKwh, heatpumpM3, currentYearly),
+    heatpumpNote: 'Berekend met warmtepomp-profiel: meer stroom, minder gas.',
+  }
+}
+
 async function calculateEnergySavings(answers, context) {
   const benchmark = await getBenchmark('energie', context)
   let kwh = answers.kwh ?? benchmark?.kwh ?? 2700
@@ -40,8 +96,13 @@ async function calculateEnergySavings(answers, context) {
   const avgRate = 0.32, avgGasRate = 1.45, fixedFee = 35
   const currentYearly = (kwh * avgRate) + (m3 * avgGasRate) + (12 * fixedFee)
 
+  // Warmtepomp: apart traject (andere verbruiksverhouding)
+  if (answers.has_heatpump === 'yes') {
+    return calculateWithHeatpump(kwh, m3, context, answers, providers, currentYearly)
+  }
+
   const ranked = providers
-    .map(p => ({ provider: p, yearly: (kwh * p.pricing.kwhRate) + (m3 * p.pricing.m3Rate) + (12 * p.pricing.fixedFee) }))
+    .map(p => ({ provider: p, yearly: calcYearlyForProvider(p, kwh, m3) }))
     .sort((a, b) => a.yearly - b.yearly)
 
   if (!ranked.length) return null
@@ -62,6 +123,7 @@ async function calculateEnergySavings(answers, context) {
     timingAdvice: getTimingAdvice(answers.contract_end),
     savable: yearTwoSaving > 50,
     easeOfSwitch: 'medium',
+    scenarios: buildEnergyScenarios(providers, kwh, m3, currentYearly),
   }
 }
 
@@ -114,26 +176,55 @@ async function calculateTelecomSavings(answers, context) {
 }
 
 async function calculateInsuranceSavings(answers, context) {
-  const benchmark = await getBenchmark('verzekering', context)
+  const [benchmark, providers] = await Promise.all([
+    getBenchmark('verzekering', context),
+    getProviders('verzekering', context),
+  ])
+
+  // Zorgverzekering — vind goedkoopste aanbieder
   const currentHealth = answers.health_monthly || benchmark?.health || 145
-  const cheapestHealth = currentHealth - 12
+  const cheapestProvider = providers
+    .filter(p => p.monthlyHealth)
+    .sort((a, b) => a.monthlyHealth - b.monthlyHealth)[0]
+
+  // Aanvullende verzekering toeslag (aanvulling heeft een meerprijs)
+  const addonPremium = { no: 0, basic: 8, extensive: 18, tandarts: 12 }[answers.health_addon] || 0
+  const cheapestHealth = cheapestProvider
+    ? cheapestProvider.monthlyHealth + addonPremium
+    : currentHealth - 12
+
   const healthSaving = Math.max(0, currentHealth - cheapestHealth) * 12
 
+  // Autoverzekering
   let carSaving = 0
   if (answers.has_car === 'yes') {
     const currentCar = answers.car_monthly || benchmark?.car || 65
-    const cheapestCar = currentCar * 0.82
+    // Ouders auto = minder dekking nodig → grotere besparing
+    const ageFactor = { '0-3': 0.92, '3-7': 0.82, '7-15': 0.73, '15+': 0.65 }[answers.car_age] || 0.82
+    const cheapestCar = currentCar * ageFactor
     carSaving = Math.max(0, currentCar - cheapestCar) * 12
   }
 
+  // Inboedel/opstal (alleen als eigenaar)
+  let homeSaving = 0
+  if (answers.has_home_insurance && answers.has_home_insurance !== 'no') {
+    // Gemiddeld €18/mnd, goedkoopste ~€14/mnd
+    homeSaving = Math.max(0, 18 - 14) * 12
+  }
+
+  const totalSaving = healthSaving + carSaving + homeSaving
+
   return {
-    yearlySaving: Math.round(healthSaving + carSaving),
-    suggestedProvider: 'ditzo',
-    suggestedProviderName: 'Ditzo',
-    welcomeBonus: 0,
-    confidence: 0.7,
+    yearlySaving: Math.round(totalSaving),
+    healthSaving: Math.round(healthSaving),
+    carSaving: Math.round(carSaving),
+    homeSaving: Math.round(homeSaving),
+    suggestedProvider: cheapestProvider?.slug ?? 'cz',
+    suggestedProviderName: cheapestProvider?.name ?? 'CZ',
+    welcomeBonus: cheapestProvider?.welcomeBonus?.amount || 0,
+    confidence: 0.70,
     timingAdvice: 'Zorgverzekering: alleen overstappen mogelijk in november–december.',
-    savable: (healthSaving + carSaving) > 60,
+    savable: totalSaving > 60,
     easeOfSwitch: 'medium',
   }
 }
