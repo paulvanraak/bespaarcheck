@@ -93,7 +93,7 @@ function Timeline({ cfg }) {
 
 export default function CheckIntro({ onStart }) {
   return (
-    <div className="w-full py-10 sm:py-16">
+    <div className="w-full py-10 sm:py-16 bg-white min-h-screen">
 
       {/* Header */}
       <div className="max-w-lg mx-auto px-4 text-center mb-10 sm:mb-14">
