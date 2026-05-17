@@ -73,8 +73,8 @@ export default function CheckLayout({ step, currentIndex, total, onNext, onPrev,
       <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-8">
         {/* Stap-header */}
         <div className="flex items-center gap-3 mb-8">
-          <div className={`w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 ${iconColor}`}>
-            <span className="material-symbols-rounded text-xl">{step.icon}</span>
+          <div className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 ${iconColor}`}>
+            <span className="material-symbols-rounded text-3xl">{step.icon}</span>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-ink-400">
