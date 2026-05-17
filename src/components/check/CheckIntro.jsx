@@ -1,4 +1,5 @@
 import { CHECK_STEPS } from '../../data/checkQuestions'
+import Logo from '../shared/Logo'
 
 const META = {
   context:     { color: '#818cf8', bg: '#eef2ff', border: '#c7d2fe', label: 'Even iets\nover jou' },
@@ -96,9 +97,8 @@ export default function CheckIntro({ onStart }) {
 
       {/* Header */}
       <div className="max-w-lg mx-auto px-4 text-center mb-10 sm:mb-14">
-        <div className="inline-flex items-center gap-2 bg-primary-50 text-primary-400 text-xs font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full mb-4">
-          <span className="material-symbols-rounded text-sm">bolt</span>
-          BespaarCheck
+        <div className="flex justify-center mb-6">
+          <Logo className="h-16 sm:h-20" />
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold text-ink-900 mb-2 leading-tight">
           Jouw persoonlijke bespaarreis
