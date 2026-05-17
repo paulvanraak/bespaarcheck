@@ -1438,6 +1438,10 @@ input[type='range']::-moz-range-thumb {
   --tw-bg-opacity: 1;
   background-color: rgb(38 48 184 / var(--tw-bg-opacity, 1));
 }
+.hover\:text-ink-500:hover{
+  --tw-text-opacity: 1;
+  color: rgb(95 94 90 / var(--tw-text-opacity, 1));
+}
 .hover\:text-ink-700:hover{
   --tw-text-opacity: 1;
   color: rgb(26 26 26 / var(--tw-text-opacity, 1));
