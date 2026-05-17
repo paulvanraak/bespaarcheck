@@ -132,6 +132,12 @@ export default function CheckIntro({ onStart }) {
         <p className="mt-3 text-sm text-ink-400">
           Geen account nodig · 100% gratis & anoniem
         </p>
+        <p className="mt-2 text-xs text-ink-300">
+          Door de check te doen ga je akkoord met onze{' '}
+          <a href="/bespaarcheck/voorwaarden" className="underline hover:text-ink-500">voorwaarden</a>{' '}
+          en ons{' '}
+          <a href="/bespaarcheck/privacy" className="underline hover:text-ink-500">privacybeleid</a>.
+        </p>
       </div>
     </div>
   )

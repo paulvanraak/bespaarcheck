@@ -1,0 +1,189 @@
+import { Link } from 'react-router-dom'
+import PageContainer from '../components/layout/PageContainer'
+
+export default function TermsPage() {
+  return (
+    <PageContainer className="py-12 max-w-2xl">
+      <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-ink-400 hover:text-ink-700 mb-8 transition-colors">
+        <span className="material-symbols-rounded text-base">arrow_back</span>
+        Terug naar home
+      </Link>
+
+      <h1 className="text-3xl font-bold text-ink-900 mb-2">Algemene voorwaarden</h1>
+      <p className="text-ink-500 mb-8">Laatste update: 17 mei 2026</p>
+
+      <div className="space-y-8 text-ink-700 leading-relaxed">
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">1. Over BespaarCheck</h2>
+          <p className="text-sm">
+            BespaarCheck is een onafhankelijke vergelijkings- en informatiedienst voor Nederlandse
+            consumenten. Wij helpen je inzicht te krijgen in mogelijke besparingen op energie,
+            bankrekeningen, telecom, verzekeringen en VPN-diensten. BespaarCheck is een product van
+            Paul van Raak, gevestigd in Nederland, bereikbaar via{' '}
+            <a href="mailto:info@bespaarcheck.com" className="text-primary-500 underline">
+              info@bespaarcheck.com
+            </a>.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">2. Gebruik van de dienst</h2>
+          <p className="text-sm mb-3">
+            De BespaarCheck-tool is gratis te gebruiken. Door de check te doen ga je akkoord met
+            deze algemene voorwaarden en ons privacybeleid.
+          </p>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>Je dient minimaal 18 jaar oud te zijn om gebruik te maken van onze dienst.</li>
+            <li>Je mag de dienst uitsluitend gebruiken voor persoonlijke, niet-commerciële doeleinden.</li>
+            <li>Je bent zelf verantwoordelijk voor de juistheid van de gegevens die je invult.</li>
+            <li>Het is niet toegestaan onze dienst te gebruiken voor scraping, geautomatiseerde bevragingen of andere vormen van misbruik.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">3. Aard van de informatie — geen financieel advies</h2>
+          <p className="text-sm mb-3">
+            <strong>Belangrijk:</strong> de berekeningen en vergelijkingen op BespaarCheck zijn
+            informatief van aard. Wij zijn geen financieel adviseur en onze resultaten vormen
+            geen financieel, juridisch of fiscaal advies.
+          </p>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>
+              Bespaarbedragen zijn ramingen op basis van CBS-benchmarkdata en actuele markttarieven.
+              Werkelijke besparingen kunnen afwijken door persoonlijke omstandigheden, tariefwijzigingen
+              of contractvoorwaarden.
+            </li>
+            <li>
+              Verbruikscijfers zijn schattingen tenzij je zelf exacte gegevens invoert. Onze
+              zekerheidsscores geven de betrouwbaarheid van elke berekening aan.
+            </li>
+            <li>
+              Voordat je overstapt naar een andere aanbieder, raden wij je aan de actuele tarieven
+              en contractvoorwaarden rechtstreeks bij de aanbieder te verifiëren.
+            </li>
+            <li>
+              BespaarCheck geeft geen advies over beleggingen, pensioen of financiële producten
+              waarvoor een AFM-vergunning vereist is.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">4. Affiliaterelaties en onafhankelijkheid</h2>
+          <p className="text-sm mb-3">
+            BespaarCheck verdient een vergoeding wanneer je via onze links een product of dienst
+            afsluit bij een aanbieder. Dit wordt een affiliate- of partnervergoeding genoemd. Deze
+            vergoeding wordt betaald door de aanbieder en kost jou niets extra.
+          </p>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>
+              Onze aanbevelingen zijn gebaseerd op prijs-kwaliteitverhouding, niet op de hoogte van
+              de vergoeding die wij ontvangen.
+            </li>
+            <li>
+              We tonen ook aanbieders waarmee wij geen affiliaterelatie hebben, als die relevant zijn
+              voor jouw situatie.
+            </li>
+            <li>
+              De hoogte van eventuele vergoedingen heeft geen invloed op de berekende bespaarbedragen.
+            </li>
+            <li>
+              BespaarCheck is op geen enkele wijze eigendom van, gelieerd aan of gefinancierd door
+              de aanbieders die wij vergelijken.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">5. Beschikbaarheid en nauwkeurigheid</h2>
+          <p className="text-sm mb-3">
+            Wij streven naar actuele en correcte informatie, maar kunnen dit niet te allen tijde
+            garanderen.
+          </p>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>
+              Tarieven en aanbiedingen van externe partijen kunnen op elk moment wijzigen zonder dat
+              wij hiervan direct op de hoogte zijn.
+            </li>
+            <li>
+              BespaarCheck behoudt zich het recht voor de dienst tijdelijk of permanent te onderbreken
+              voor onderhoud of andere redenen, zonder voorafgaande kennisgeving.
+            </li>
+            <li>
+              We zijn niet verantwoordelijk voor storingen bij externe partijen (aanbieders,
+              affiliatenetwerken, hostingpartijen).
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">6. Beperking van aansprakelijkheid</h2>
+          <p className="text-sm mb-3">
+            Voor zover toegestaan onder Nederlands recht:
+          </p>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>
+              BespaarCheck is niet aansprakelijk voor directe of indirecte schade die voortvloeit
+              uit het gebruik van onze dienst of het handelen op basis van onze berekeningen.
+            </li>
+            <li>
+              We zijn niet aansprakelijk voor schade als gevolg van onjuiste of verouderde
+              tariefinformatie, technische storingen, of beslissingen die je neemt op basis van
+              onze resultaten.
+            </li>
+            <li>
+              Onze totale aansprakelijkheid is in alle gevallen beperkt tot het bedrag dat je aan
+              BespaarCheck hebt betaald — nu €0, aangezien de dienst gratis is.
+            </li>
+            <li>
+              BespaarCheck is niet aansprakelijk voor de inhoud van websites van externe aanbieders
+              waarnaar wij linken.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">7. Intellectueel eigendom</h2>
+          <p className="text-sm">
+            Alle content op BespaarCheck — inclusief teksten, berekeningen, lay-out, logo's en
+            software — is eigendom van BespaarCheck of wordt gebruikt met toestemming van de
+            rechthebbende. Het is niet toegestaan content van BespaarCheck te kopiëren, te
+            publiceren of commercieel te gebruiken zonder schriftelijke toestemming.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">8. Wijzigingen in de voorwaarden</h2>
+          <p className="text-sm">
+            BespaarCheck behoudt zich het recht voor deze voorwaarden te wijzigen. De meest
+            actuele versie is altijd te vinden op deze pagina. De datum bovenaan geeft aan wanneer
+            de laatste wijziging heeft plaatsgevonden. Voortgezet gebruik van de dienst na een
+            wijziging geldt als acceptatie van de nieuwe voorwaarden.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">9. Toepasselijk recht en geschillen</h2>
+          <p className="text-sm">
+            Op deze voorwaarden is Nederlands recht van toepassing. Geschillen worden bij voorkeur
+            in goed overleg opgelost. Mocht dat niet lukken, dan is de bevoegde rechtbank in
+            Nederland exclusief bevoegd om geschillen te beslechten, tenzij dwingende wettelijke
+            bepalingen anders voorschrijven.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">10. Contact</h2>
+          <p className="text-sm">
+            Heb je vragen over deze voorwaarden? Stuur een e-mail naar{' '}
+            <a href="mailto:info@bespaarcheck.com" className="text-primary-500 underline">
+              info@bespaarcheck.com
+            </a>.
+          </p>
+        </section>
+
+      </div>
+    </PageContainer>
+  )
+}

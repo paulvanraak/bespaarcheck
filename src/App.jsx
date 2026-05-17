@@ -6,6 +6,8 @@ import CheckPage from './pages/CheckPage'
 import CheckResultsPage from './pages/CheckResultsPage'
 import NotFoundPage from './pages/NotFoundPage'
 import MethodPage from './pages/MethodPage'
+import PrivacyPage from './pages/PrivacyPage'
+import TermsPage from './pages/TermsPage'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import { CompareProvider } from './context/CompareContext'
@@ -26,6 +28,8 @@ export default function App() {
                 <Route path="/vergelijk/:category" element={<CategoryPage />} />
                 <Route path="/aanbieder/:category/:provider" element={<ProviderPage />} />
                 <Route path="/methode" element={<MethodPage />} />
+                <Route path="/privacy" element={<PrivacyPage />} />
+                <Route path="/voorwaarden" element={<TermsPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>

@@ -21,9 +21,9 @@ export default function Footer() {
               </div>
               <div className="flex flex-wrap gap-4 sm:gap-6 text-sm text-ink-500">
                 <Link to="/methode" className="hover:text-ink-700">Methodologie</Link>
-                <a href="/privacy" className="hover:text-ink-700">Privacy</a>
-                <a href="/over" className="hover:text-ink-700">Over ons</a>
-                <a href="mailto:info@bespaarcheck.nl" className="hover:text-ink-700">Contact</a>
+                <Link to="/privacy" className="hover:text-ink-700">Privacybeleid</Link>
+                <Link to="/voorwaarden" className="hover:text-ink-700">Voorwaarden</Link>
+                <a href="mailto:info@bespaarcheck.com" className="hover:text-ink-700">Contact</a>
               </div>
             </div>
             <AffiliateDisclosure />

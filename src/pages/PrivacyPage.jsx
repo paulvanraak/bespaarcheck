@@ -1,0 +1,187 @@
+import { Link } from 'react-router-dom'
+import PageContainer from '../components/layout/PageContainer'
+
+export default function PrivacyPage() {
+  return (
+    <PageContainer className="py-12 max-w-2xl">
+      <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-ink-400 hover:text-ink-700 mb-8 transition-colors">
+        <span className="material-symbols-rounded text-base">arrow_back</span>
+        Terug naar home
+      </Link>
+
+      <h1 className="text-3xl font-bold text-ink-900 mb-2">Privacybeleid</h1>
+      <p className="text-ink-500 mb-8">Laatste update: 17 mei 2026</p>
+
+      <div className="space-y-8 text-ink-700 leading-relaxed">
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">1. Wie zijn wij?</h2>
+          <p className="text-sm">
+            BespaarCheck is een vergelijkingsdienst voor Nederlandse consumenten. Via onze website
+            help je jouw abonnementen, verzekeringen en energiecontracten te vergelijken met
+            alternatieven. BespaarCheck is een product van Paul van Raak, gevestigd in Nederland.
+            Je kunt ons bereiken via{' '}
+            <a href="mailto:info@bespaarcheck.com" className="text-primary-500 underline">
+              info@bespaarcheck.com
+            </a>.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">2. Welke gegevens verzamelen wij?</h2>
+          <p className="text-sm mb-3">
+            Wij houden het zo minimaal mogelijk. We verzamelen alleen wat nodig is om jou een
+            nauwkeurig besparoverzicht te geven.
+          </p>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>
+              <strong>Checkantwoorden</strong> — de antwoorden die je invult in de BespaarCheck
+              (eerste 4 cijfers van je postcode, huishoudgrootte, woningtype, verbruiksgegevens,
+              contractinformatie). We slaan nooit je volledige adres op.
+            </li>
+            <li>
+              <strong>E-mailadres</strong> — alleen als je zelf kiest om je resultaten per e-mail te
+              ontvangen. Dit is volledig optioneel.
+            </li>
+            <li>
+              <strong>Technische gegevens</strong> — IP-adres en browsertype worden tijdelijk
+              verwerkt door onze infrastructuur (Supabase), uitsluitend voor beveiligings- en
+              stabiliteitsdoeleinden. We slaan deze gegevens niet permanent op.
+            </li>
+            <li>
+              <strong>Affiliate-klikken</strong> — als je via een link op onze site doorklikt naar
+              een aanbieder, registreert het affiliatenetwerk dat je via BespaarCheck bent gekomen.
+              Dit is geanonimiseerd en bevat geen persoonlijk identificeerbare gegevens van onze kant.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">3. Waarvoor gebruiken wij je gegevens?</h2>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>Het berekenen en tonen van jouw persoonlijke bespaaroverzicht</li>
+            <li>Het verbeteren van onze berekeningen en benchmarks (geanonimiseerd)</li>
+            <li>Het versturen van je resultaten per e-mail (alleen als je dit aanvraagt)</li>
+            <li>Het bijhouden van welke categorieën gebruikers als gedaan markeren</li>
+          </ul>
+          <p className="text-sm mt-3">
+            We gebruiken je gegevens nooit voor advertenties, profilering of verkoop aan derden.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">4. Grondslagen voor verwerking (AVG)</h2>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>
+              <strong>Gerechtvaardigd belang</strong> — het verwerken van checkantwoorden om je een
+              gepersonaliseerd besparoverzicht te tonen is noodzakelijk voor de dienst die je vraagt.
+            </li>
+            <li>
+              <strong>Toestemming</strong> — voor het verzenden van e-mail vragen wij expliciete
+              toestemming. Je kunt deze altijd intrekken.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">5. Hoe lang bewaren wij je gegevens?</h2>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>
+              <strong>Checkresultaten zonder account</strong> — 90 dagen na het uitvoeren van de check.
+              Daarna worden ze automatisch verwijderd.
+            </li>
+            <li>
+              <strong>Checkresultaten met account</strong> — zolang je account actief is. Je kunt je
+              account en alle bijbehorende data op elk moment laten verwijderen.
+            </li>
+            <li>
+              <strong>E-mailadres</strong> — totdat je je afmeldt of verwijdering verzoekt.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">6. Derden en sub-verwerkers</h2>
+          <p className="text-sm mb-3">
+            Wij maken gebruik van de volgende externe partijen:
+          </p>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li>
+              <strong>Supabase</strong> (dataopslag) — je checkdata wordt opgeslagen in een beveiligde
+              Supabase-database, gehost in de EU. Supabase is AVG-compliant.
+            </li>
+            <li>
+              <strong>Affiliatenetwerken</strong> (Daisycon, Awin, directe partners) — wanneer je
+              doorklikt naar een aanbieder, wordt een geanonimiseerde klik geregistreerd. Dit netwerk
+              ziet niet wie jij bent, alleen dat er een klik afkomstig is van BespaarCheck.
+            </li>
+            <li>
+              <strong>GitHub Pages</strong> — onze website wordt gehost via GitHub Pages. GitHub
+              verwerkt technische verbindingsdata conform hun eigen privacybeleid.
+            </li>
+          </ul>
+          <p className="text-sm mt-3">
+            Wij delen je gegevens nooit met aanbieders of andere derde partijen voor commerciële
+            doeleinden.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">7. Cookies</h2>
+          <p className="text-sm">
+            Wij gebruiken geen tracking- of marketingcookies. We gebruiken uitsluitend functionele
+            cookies die noodzakelijk zijn voor het werken van de website (zoals het onthouden van
+            je checkvoortgang in dezelfde sessie). Voor functionele cookies is geen toestemming
+            vereist op grond van de Telecommunicatiewet.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">8. Jouw rechten (AVG)</h2>
+          <p className="text-sm mb-3">Je hebt de volgende rechten met betrekking tot je persoonsgegevens:</p>
+          <ul className="space-y-2 text-sm list-disc list-inside">
+            <li><strong>Inzagerecht</strong> — je kunt opvragen welke gegevens wij van je bewaren</li>
+            <li><strong>Rectificatierecht</strong> — je kunt onjuiste gegevens laten corrigeren</li>
+            <li><strong>Recht op vergetelheid</strong> — je kunt verwijdering van je gegevens verzoeken</li>
+            <li><strong>Recht op beperking</strong> — je kunt het gebruik van je gegevens laten beperken</li>
+            <li><strong>Recht op overdraagbaarheid</strong> — je kunt je gegevens opvragen in een leesbaar formaat</li>
+            <li><strong>Bezwaarrecht</strong> — je kunt bezwaar maken tegen verwerking op basis van gerechtvaardigd belang</li>
+          </ul>
+          <p className="text-sm mt-3">
+            Stuur een verzoek naar{' '}
+            <a href="mailto:info@bespaarcheck.com" className="text-primary-500 underline">
+              info@bespaarcheck.com
+            </a>. We reageren binnen 30 dagen. Je hebt ook het recht een klacht in te dienen bij de{' '}
+            <a
+              href="https://www.autoriteitpersoonsgegevens.nl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-500 underline"
+            >
+              Autoriteit Persoonsgegevens
+            </a>.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">9. Beveiliging</h2>
+          <p className="text-sm">
+            We beveiligen je gegevens via versleutelde verbindingen (HTTPS), toegangscontrole op
+            databaseniveau en regelmatige beveiligingsreviews. Ondanks onze maatregelen kan geen
+            enkele beveiliging 100% gegarandeerd worden. Bij een datalek informeren wij je en de
+            Autoriteit Persoonsgegevens conform de wettelijke verplichtingen.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-bold text-ink-900 mb-3">10. Wijzigingen in dit beleid</h2>
+          <p className="text-sm">
+            Wij kunnen dit privacybeleid aanpassen. De datum bovenaan geeft de laatste versie aan.
+            Bij ingrijpende wijzigingen informeren wij je actief als we je e-mailadres hebben.
+          </p>
+        </section>
+
+      </div>
+    </PageContainer>
+  )
+}
