@@ -111,7 +111,7 @@ export default function CheckLayout({ step, currentIndex, total, onNext, onPrev,
             <button
               onClick={handleNext}
               disabled={saving}
-              className="flex-1 py-3 rounded-md bg-accent-500 hover:bg-accent-600 disabled:opacity-60 text-white text-sm font-semibold transition-colors"
+              className="flex-1 py-3 rounded-md bg-primary-500 hover:bg-primary-600 disabled:opacity-60 text-white text-sm font-semibold transition-colors"
             >
               {saving ? 'Berekenen…' : isLast ? 'Bekijk mijn besparing →' : 'Volgende →'}
             </button>

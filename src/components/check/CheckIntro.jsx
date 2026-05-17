@@ -124,7 +124,7 @@ export default function CheckIntro({ onStart }) {
       <div className="max-w-lg mx-auto px-4 text-center mt-10">
         <button
           onClick={onStart}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-base px-10 py-4 rounded-xl transition-colors shadow-lg shadow-accent-600/20"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-semibold text-base px-10 py-4 rounded-xl transition-colors shadow-lg shadow-primary-600/20"
         >
           Start de check
           <span className="material-symbols-rounded text-lg">arrow_forward</span>
