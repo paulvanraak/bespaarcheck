@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+)
+---
+
+<BaseLayout
+  title="Blog — BespaarCheck"
+  description="Tips en gidsen over besparen op energie, bankrekeningen, telecom en meer."
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-3xl font-bold text-ink-900 mb-2">Blog</h1>
+    <p class="text-ink-500 mb-10">Tips, gidsen en nieuws over slimmer besparen.</p>
+
+    <div class="space-y-6">
+      {posts.map(post => (
+        <a
+          href={`/bespaarcheck/blog/${post.slug}/`}
+          class="block bg-white border border-ink-100 rounded-xl p-6 hover:shadow-md transition-all group"
+        >
+          {post.data.category && (
+            <span class="text-xs font-semibold uppercase tracking-widest text-primary-500 mb-2 block">
+              {post.data.category}
+            </span>
+          )}
+          <h2 class="text-xl font-bold text-ink-900 mb-2 group-hover:text-primary-500 transition-colors">
+            {post.data.title}
+          </h2>
+          <p class="text-sm text-ink-500 mb-3">{post.data.description}</p>
+          <span class="text-xs text-ink-300">
+            {post.data.pubDate.toLocaleDateString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

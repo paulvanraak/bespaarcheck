@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout
+  title="Pagina niet gevonden — BespaarCheck"
+  description="De pagina die je zoekt bestaat niet."
+>
+  <div class="max-w-2xl mx-auto px-4 py-24 text-center">
+    <span class="material-symbols-rounded text-6xl text-ink-200 mb-6 block">search_off</span>
+    <h1 class="text-3xl font-bold text-ink-900 mb-3">Pagina niet gevonden</h1>
+    <p class="text-ink-500 mb-8">De pagina die je zoekt bestaat niet of is verplaatst.</p>
+    <a
+      href="/bespaarcheck/"
+      class="inline-flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-semibold px-6 py-3 rounded-md transition-colors"
+    >
+      <span class="material-symbols-rounded text-base">home</span>
+      Terug naar home
+    </a>
+  </div>
+</BaseLayout>

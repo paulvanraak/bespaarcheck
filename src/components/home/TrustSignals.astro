@@ -1,0 +1,20 @@
+---
+const SIGNALS = [
+  { icon: 'lock', text: '100% gratis & anoniem' },
+  { icon: 'verified', text: 'Geen account nodig' },
+  { icon: 'star', text: 'Onafhankelijk advies' },
+]
+---
+
+<div class="bg-white py-5 border-b border-ink-100">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6">
+    <div class="flex flex-wrap justify-center gap-8 sm:gap-16">
+      {SIGNALS.map((s) => (
+        <div class="flex items-center gap-2.5 text-base font-medium text-ink-600">
+          <span class="material-symbols-rounded text-primary-500 text-2xl">{s.icon}</span>
+          {s.text}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>

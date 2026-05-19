@@ -1,36 +1,35 @@
 import { useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
 import Logo from '../shared/Logo'
 import { CATEGORIES } from '../../data/categories'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [compareOpen, setCompareOpen] = useState(false)
-  const location = useLocation()
 
-  const isCheckFlow = location.pathname.startsWith('/check')
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : ''
+  const isCheckFlow = pathname.includes('/check')
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-ink-100">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
 
         {/* Logo — altijd links, altijd klikbaar naar home */}
-        <Link to="/" className="flex-shrink-0">
+        <a href="/bespaarcheck/" className="flex-shrink-0">
           <Logo className="text-lg" />
-        </Link>
+        </a>
 
         {/* Spacer */}
         <div className="flex-1" />
 
         {/* Rechts: knoppen (buiten check) of home-link (in check) */}
         {isCheckFlow ? (
-          <Link
-            to="/"
+          <a
+            href="/bespaarcheck/"
             className="flex items-center gap-1.5 text-sm text-ink-400 hover:text-ink-700 transition-colors"
           >
             <span className="material-symbols-rounded text-base">home</span>
             <span className="hidden sm:inline">Home</span>
-          </Link>
+          </a>
         ) : (
           <>
             {/* Desktop: Vergelijken + Start check naast elkaar rechts */}
@@ -48,35 +47,36 @@ export default function Header() {
                   <>
                     <div className="fixed inset-0" onClick={() => setCompareOpen(false)} />
                     <div className="absolute right-0 top-full mt-1 bg-white border border-ink-100 rounded-lg shadow-lg py-1 min-w-44 z-50">
-                      {CATEGORIES.map(cat => (
-                        <NavLink
-                          key={cat.slug}
-                          to={`/vergelijk/${cat.slug}`}
-                          onClick={() => setCompareOpen(false)}
-                          className={({ isActive }) =>
-                            `flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                      {CATEGORIES.map(cat => {
+                        const isActive = pathname === `/bespaarcheck/vergelijk/${cat.slug}/` || pathname === `/bespaarcheck/vergelijk/${cat.slug}`
+                        return (
+                          <a
+                            key={cat.slug}
+                            href={`/bespaarcheck/vergelijk/${cat.slug}/`}
+                            onClick={() => setCompareOpen(false)}
+                            className={`flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
                               isActive ? 'text-primary-500 bg-primary-50' : 'text-ink-700 hover:bg-ink-50'
-                            } ${!cat.available ? 'opacity-40 pointer-events-none' : ''}`
-                          }
-                        >
-                          {cat.name}
-                          {!cat.available && (
-                            <span className="text-xs text-ink-300 ml-auto">Binnenkort</span>
-                          )}
-                        </NavLink>
-                      ))}
+                            } ${!cat.available ? 'opacity-40 pointer-events-none' : ''}`}
+                          >
+                            {cat.name}
+                            {!cat.available && (
+                              <span className="text-xs text-ink-300 ml-auto">Binnenkort</span>
+                            )}
+                          </a>
+                        )
+                      })}
                     </div>
                   </>
                 )}
               </div>
 
-              <Link
-                to="/check"
+              <a
+                href="/bespaarcheck/check/"
                 className="inline-flex items-center gap-1.5 bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-2 rounded-md transition-colors"
               >
                 Start check
                 <span className="material-symbols-rounded text-base">arrow_forward</span>
-              </Link>
+              </a>
             </div>
 
             {/* Mobile hamburger */}
@@ -103,14 +103,14 @@ export default function Header() {
             <div className="px-4 py-5">
 
               {/* CTA */}
-              <Link
-                to="/check"
+              <a
+                href="/bespaarcheck/check/"
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-accent-500 hover:bg-accent-600 text-white font-bold text-base transition-colors mb-6"
               >
                 <span className="material-symbols-rounded text-lg">bolt</span>
                 Start de BespaarCheck
-              </Link>
+              </a>
 
               {/* Vergelijken */}
               <p className="text-[11px] font-bold uppercase tracking-widest text-ink-300 mb-3 px-1">
@@ -128,11 +128,12 @@ export default function Header() {
                     green: 'text-green-600 bg-green-50',
                   }
                   const iconCls = iconColors[cat.color] ?? 'text-primary-500 bg-primary-50'
+                  const isActive = pathname === `/bespaarcheck/vergelijk/${cat.slug}/` || pathname === `/bespaarcheck/vergelijk/${cat.slug}`
 
                   if (!cat.available) {
                     return (
                       <div key={cat.slug} className="flex items-center gap-3 px-3 py-3 rounded-xl opacity-40">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-ink-100`}>
+                        <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-ink-100">
                           <span className="material-symbols-rounded text-ink-400 text-[18px]">{cat.icon}</span>
                         </div>
                         <span className="text-sm font-medium text-ink-500 flex-1">{cat.name}</span>
@@ -142,22 +143,20 @@ export default function Header() {
                   }
 
                   return (
-                    <NavLink
+                    <a
                       key={cat.slug}
-                      to={`/vergelijk/${cat.slug}`}
+                      href={`/bespaarcheck/vergelijk/${cat.slug}/`}
                       onClick={() => setMenuOpen(false)}
-                      className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-3 rounded-xl transition-colors ${
-                          isActive ? 'bg-primary-50' : 'hover:bg-ink-50'
-                        }`
-                      }
+                      className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-colors ${
+                        isActive ? 'bg-primary-50' : 'hover:bg-ink-50'
+                      }`}
                     >
                       <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${iconCls}`}>
                         <span className="material-symbols-rounded text-[18px]">{cat.icon}</span>
                       </div>
                       <span className="text-sm font-semibold text-ink-900 flex-1">{cat.name}</span>
                       <span className="material-symbols-rounded text-ink-300 text-[18px]">chevron_right</span>
-                    </NavLink>
+                    </a>
                   )
                 })}
               </div>

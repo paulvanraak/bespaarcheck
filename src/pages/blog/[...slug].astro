@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }))
+}
+
+const { post } = Astro.props
+const { Content } = await post.render()
+---
+
+<BaseLayout title={`${post.data.title} — BespaarCheck`} description={post.data.description}>
+  <article class="max-w-2xl mx-auto px-4 sm:px-6 py-12">
+    <a href="/bespaarcheck/blog/" class="inline-flex items-center gap-1.5 text-sm text-ink-400 hover:text-ink-700 mb-8 transition-colors">
+      <span class="material-symbols-rounded text-base">arrow_back</span>
+      Terug naar blog
+    </a>
+
+    {post.data.category && (
+      <span class="text-xs font-semibold uppercase tracking-widest text-primary-500 mb-3 block">
+        {post.data.category}
+      </span>
+    )}
+
+    <h1 class="text-3xl sm:text-4xl font-bold text-ink-900 mb-3 leading-tight">
+      {post.data.title}
+    </h1>
+
+    <p class="text-ink-400 text-sm mb-8">
+      {post.data.pubDate.toLocaleDateString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric' })}
+    </p>
+
+    <div class="prose prose-slate max-w-none
+      prose-headings:font-bold prose-headings:text-ink-900
+      prose-p:text-ink-700 prose-p:leading-relaxed
+      prose-li:text-ink-700
+      prose-a:text-primary-500 prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-ink-900
+      prose-table:text-sm
+      prose-th:text-ink-900 prose-th:font-semibold
+      prose-td:text-ink-700
+    ">
+      <Content />
+    </div>
+
+    <div class="mt-12 p-6 bg-primary-50 border border-primary-100 rounded-xl text-center">
+      <p class="text-lg font-semibold text-ink-900 mb-2">Klaar om te besparen?</p>
+      <p class="text-sm text-ink-500 mb-4">Doe de gratis BespaarCheck en ontdek in 3 minuten hoeveel jij kunt besparen.</p>
+      <a
+        href="/bespaarcheck/check/"
+        class="inline-flex items-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold px-6 py-3 rounded-md transition-colors"
+      >
+        Start de BespaarCheck
+        <span class="material-symbols-rounded text-base">arrow_forward</span>
+      </a>
+    </div>
+  </article>
+</BaseLayout>

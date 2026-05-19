@@ -1,0 +1,42 @@
+---
+import '../styles/global.css'
+import Header from '../components/layout/Header.jsx'
+import Footer from '../components/layout/Footer.astro'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const {
+  title = 'BespaarCheck — Ontdek wat jij kunt besparen',
+  description = 'BespaarCheck berekent in 3 minuten hoeveel jij kunt besparen op energie, bankrekening, telecom en verzekeringen. Gratis, anoniem, geen account nodig.',
+} = Astro.props
+---
+
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap"
+    />
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <Header client:load />
+      <main class="flex-1">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { formatEuro } from '../../services/savings'
 import { supabase } from '../../services/supabase'
 import { useUser } from '../../context/UserContext'
@@ -83,12 +82,12 @@ export default function ResultCategoryCard({ category, result, checkId }) {
         </div>
       ) : (
         <div className="flex gap-2">
-          <Link
-            to={`/vergelijk/${meta.slug}`}
+          <a
+            href={`/bespaarcheck/vergelijk/${meta.slug}/`}
             className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold transition-colors"
           >
             Vergelijk aanbieders
-          </Link>
+          </a>
           <button
             onClick={markDone}
             disabled={marking}

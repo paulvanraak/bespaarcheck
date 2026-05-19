@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import StarRating from '../shared/StarRating'
 import Icon from '../shared/Icon'
 import { formatEuro } from '../../services/savings'
@@ -8,8 +7,8 @@ export default function ProviderRow({ provider, category }) {
   const price = isVPN ? provider.price.biennial : provider.monthlyFee
 
   return (
-    <Link
-      to={`/aanbieder/${category.slug}/${provider.slug}`}
+    <a
+      href={`/bespaarcheck/aanbieder/${category.slug}/${provider.slug}/`}
       className={`block bg-white border rounded-xl overflow-hidden hover:shadow-md transition-all ${
         provider.bestChoice
           ? 'border-success ring-1 ring-success/20'
@@ -77,6 +76,6 @@ export default function ProviderRow({ provider, category }) {
           </span>
         </div>
       </div>
-    </Link>
+    </a>
   )
 }

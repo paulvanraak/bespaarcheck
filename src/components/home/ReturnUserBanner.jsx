@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { UserProvider } from '../../context/UserContext'
 import { useUser } from '../../context/UserContext'
 import { getLatestCheck } from '../../services/user'
 import { formatEuro } from '../../services/savings'
 
-export default function ReturnUserBanner() {
+function ReturnUserBannerInner() {
   const { user } = useUser()
   const [latestCheck, setLatestCheck] = useState(null)
 
@@ -25,13 +25,21 @@ export default function ReturnUserBanner() {
             Je potentiële besparing: {formatEuro(latestCheck.total_savings)}/jaar
           </p>
         </div>
-        <Link
-          to={`/check/resultaten/${latestCheck.id}`}
+        <a
+          href={`/bespaarcheck/check/resultaten/${latestCheck.id}/`}
           className="text-primary-500 font-medium text-sm whitespace-nowrap hover:text-primary-600 transition-colors"
         >
           Bekijk resultaten →
-        </Link>
+        </a>
       </div>
     </div>
+  )
+}
+
+export default function ReturnUserBanner() {
+  return (
+    <UserProvider>
+      <ReturnUserBannerInner />
+    </UserProvider>
   )
 }

@@ -1,0 +1,19 @@
+---
+import CheckLayout from '../../../layouts/CheckLayout.astro'
+import CheckResultsApp from '../../../components/results/CheckResultsApp.jsx'
+
+export function getStaticPaths() {
+  // We pre-render only the 'local' fallback path.
+  // Dynamic check IDs are handled client-side via the id prop.
+  return [{ params: { id: 'local' } }]
+}
+
+const { id } = Astro.params
+---
+
+<CheckLayout
+  title="Jouw BespaarCheck resultaten"
+  description="Bekijk je persoonlijke bespaaroverzicht. Ontdek hoeveel je kunt besparen op energie, bankrekening, telecom en verzekeringen."
+>
+  <CheckResultsApp id={id} client:load />
+</CheckLayout>

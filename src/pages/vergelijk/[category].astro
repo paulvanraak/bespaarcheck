@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import CategoryApp from '../../components/compare/CategoryApp.jsx'
+import { CATEGORIES } from '../../data/categories'
+
+export function getStaticPaths() {
+  return CATEGORIES
+    .filter(cat => cat.available)
+    .map(cat => ({ params: { category: cat.slug } }))
+}
+
+const { category: slug } = Astro.params
+const category = CATEGORIES.find(c => c.slug === slug)
+---
+
+<BaseLayout
+  title={category ? `${category.name} vergelijken — BespaarCheck` : 'Vergelijken — BespaarCheck'}
+  description={category?.description ?? 'Vergelijk aanbieders en bespaar geld.'}
+>
+  <CategoryApp slug={slug} client:load />
+</BaseLayout>

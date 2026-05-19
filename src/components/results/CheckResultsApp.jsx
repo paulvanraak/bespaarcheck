@@ -1,0 +1,150 @@
+import { useEffect, useMemo, useState } from 'react'
+import { UserProvider } from '../../context/UserContext'
+import { getCheckById } from '../../services/check'
+import { sortByQuickWins } from '../../services/savings'
+import { isLegacyCheck, validateAnswers } from '../../services/checkValidation'
+import ResultsHero from './ResultsHero'
+import ResultCategoryCard from './ResultCategoryCard'
+import EmailOptIn from './EmailOptIn'
+import SocialProof from './SocialProof'
+
+function CheckResultsInner({ id }) {
+  const [check, setCheck] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Fallback: resultaten uit sessionStorage (Supabase niet beschikbaar)
+    if (id === 'local') {
+      try {
+        const stored = sessionStorage.getItem('localCheckResult')
+        if (stored) {
+          const { results, totalSavings, score } = JSON.parse(stored)
+          setCheck({
+            id: 'local',
+            results,
+            total_savings: totalSavings,
+            score,
+          })
+        }
+      } catch {
+        // ignore parse errors
+      }
+      setLoading(false)
+      return
+    }
+
+    getCheckById(id)
+      .then((data) => setCheck(data))
+      .finally(() => setLoading(false))
+  }, [id])
+
+  const sorted = useMemo(
+    () => (check?.results ? sortByQuickWins(check.results) : []),
+    [check]
+  )
+
+  const legacy = useMemo(() => isLegacyCheck(check), [check])
+
+  const validationWarnings = useMemo(
+    () => (check?.answers ? validateAnswers(check.answers) : []),
+    [check]
+  )
+
+  if (loading) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        <div className="inline-block w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin mb-3" />
+        <p className="text-ink-400 text-sm">Resultaten ophalen…</p>
+      </div>
+    )
+  }
+
+  if (!check) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        <p className="text-ink-500 mb-4">Resultaten niet gevonden.</p>
+        <a href="/bespaarcheck/check/" className="text-primary-500 font-medium">Doe de check opnieuw →</a>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12">
+      <ResultsHero
+        totalSavings={Number(check.total_savings)}
+        score={Number(check.score)}
+      />
+
+      {/* Legacy check banner */}
+      {legacy ? (
+        <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-6">
+          <span className="material-symbols-rounded text-amber-500 flex-shrink-0 mt-0.5">info</span>
+          <div>
+            <p className="text-sm font-semibold text-amber-800">Beperkte nauwkeurigheid</p>
+            <p className="text-xs text-amber-700 mt-0.5">
+              Deze check is gemaakt vóór onze accuratesse-update. Doe een{' '}
+              <a href="/bespaarcheck/check/" className="underline font-medium">nieuwe check</a>{' '}
+              voor een veel preciezer beeld — het duurt nog geen 3 minuten.
+            </p>
+          </div>
+        </div>
+      ) : null}
+
+      {/* Validation warnings */}
+      {validationWarnings.length > 0 ? (
+        <div className="space-y-2 mb-6">
+          {validationWarnings.map((w, i) => (
+            <div key={i} className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+              <span className="material-symbols-rounded text-amber-500 flex-shrink-0 mt-0.5 text-sm">warning</span>
+              <p className="text-xs text-amber-800">{w.message}</p>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      {sorted.length > 0 ? (
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-ink-900 mb-1">Quick wins eerst</h2>
+          <p className="text-sm text-ink-500 mb-4">Gesorteerd op gemak van overstappen</p>
+          <div className="space-y-3">
+            {sorted.map(([category, result]) => (
+              <ResultCategoryCard
+                key={category}
+                category={category}
+                result={result}
+                checkId={check.id}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="bg-successBg border border-success/20 rounded-xl p-6 mb-8 text-center">
+          <span className="material-symbols-rounded text-success text-3xl">verified</span>
+          <p className="font-medium text-ink-900 mt-2">Je zit al goed!</p>
+          <p className="text-sm text-ink-500 mt-1">
+            Op basis van je antwoorden is er weinig ruimte voor besparing. Goed bezig.
+          </p>
+        </div>
+      )}
+
+      <a
+        href="/bespaarcheck/check/"
+        className="text-sm text-ink-400 hover:text-ink-600 flex items-center gap-1 transition-colors mb-6"
+      >
+        <span className="material-symbols-rounded text-base">refresh</span>
+        Check opnieuw doen
+      </a>
+
+      <EmailOptIn checkId={check.id} />
+      <SocialProof />
+    </div>
+  )
+}
+
+export default function CheckResultsApp({ id }) {
+  return (
+    <UserProvider>
+      <CheckResultsInner id={id} />
+    </UserProvider>
+  )
+}

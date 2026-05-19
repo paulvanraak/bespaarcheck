@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import CheckHero from '../components/home/CheckHero.astro'
+import TrustSignals from '../components/home/TrustSignals.astro'
+import CategoryGrid from '../components/home/CategoryGrid.astro'
+import SavingsBanner from '../components/home/SavingsBanner.astro'
+import ReturnUserBanner from '../components/home/ReturnUserBanner.jsx'
+---
+
+<BaseLayout
+  title="BespaarCheck — Ontdek wat jij kunt besparen"
+  description="BespaarCheck berekent in 3 minuten hoeveel jij kunt besparen op energie, bankrekening, telecom en verzekeringen. Gratis, anoniem, geen account nodig."
+>
+  <CheckHero />
+  <TrustSignals />
+  <ReturnUserBanner client:load />
+  <SavingsBanner />
+  <div id="vergelijkers">
+    <CategoryGrid />
+  </div>
+</BaseLayout>
