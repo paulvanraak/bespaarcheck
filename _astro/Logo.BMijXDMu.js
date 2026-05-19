@@ -1,0 +1,1 @@
+import{j as s}from"./jsx-runtime.C9eWo9jt.js";function o({className:a=""}){return s.jsx("img",{src:"/bespaarcheck/Logo bespaarcheck.png",alt:"BespaarCheck",className:`h-10 w-auto ${a}`})}export{o as L};
