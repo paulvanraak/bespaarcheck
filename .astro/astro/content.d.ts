@@ -141,6 +141,20 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"blog": {
+"beste-vpn-nederland-2026.md": {
+	id: "beste-vpn-nederland-2026.md";
+  slug: "beste-vpn-nederland-2026";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"gemiddeld-energieverbruik-nederland.md": {
+	id: "gemiddeld-energieverbruik-nederland.md";
+  slug: "gemiddeld-energieverbruik-nederland";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 "goedkoopste-energieleverancier-2026.md": {
 	id: "goedkoopste-energieleverancier-2026.md";
   slug: "goedkoopste-energieleverancier-2026";
@@ -148,9 +162,23 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
+"gratis-bankrekening-vergelijken-2026.md": {
+	id: "gratis-bankrekening-vergelijken-2026.md";
+  slug: "gratis-bankrekening-vergelijken-2026";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 "overstappen-energieleverancier-stappenplan.md": {
 	id: "overstappen-energieleverancier-stappenplan.md";
   slug: "overstappen-energieleverancier-stappenplan";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
+"variabel-of-vast-energiecontract.md": {
+	id: "variabel-of-vast-energiecontract.md";
+  slug: "variabel-of-vast-energiecontract";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
