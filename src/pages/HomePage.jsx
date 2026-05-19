@@ -9,11 +9,11 @@ export default function HomePage() {
   return (
     <>
       <CheckHero />
+      <TrustSignals />
       <ReturnUserBanner />
       <div id="vergelijkers">
         <CategoryGrid categories={CATEGORIES} />
       </div>
-      <TrustSignals />
     </>
   )
 }
