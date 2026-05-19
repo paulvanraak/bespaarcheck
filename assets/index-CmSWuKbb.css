@@ -1512,6 +1512,9 @@ input[type='range']::-moz-range-thumb {
   .sm\:gap-12{
     gap: 3rem;
   }
+  .sm\:gap-16{
+    gap: 4rem;
+  }
   .sm\:gap-3{
     gap: 0.75rem;
   }
